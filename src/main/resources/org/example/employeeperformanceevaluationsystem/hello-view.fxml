@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.employeeperformanceevaluationsystem.HelloController">
-  <padding>
-    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-  </padding>
-
-  <Label fx:id="welcomeText"/>
-  <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.employeeperformanceevaluationsystem.HelloController">
+  <left>
+    <VBox spacing="10" BorderPane.alignment="CENTER" style="-fx-padding: 20;">
+      <Label text="Add New Employee" />
+      <TextField fx:id="nameField" promptText="Employee Name" />
+      <TextField fx:id="departmentField" promptText="Department" />
+      <TextField fx:id="performanceScoreField" promptText="Performance Score (1-100)" />
+      <Button text="Add Employee" onAction="#onAddEmployeeButtonClick" />
+    </VBox>
+  </left>
+  <center>
+    <ScrollPane fitToWidth="true">
+      <VBox fx:id="employeeDisplayArea" spacing="10" style="-fx-padding: 10;" />
+    </ScrollPane>
+  </center>
+</BorderPane>
