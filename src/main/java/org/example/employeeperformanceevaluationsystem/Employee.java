@@ -1,28 +1,35 @@
 package org.example.employeeperformanceevaluationsystem;
 
 public class Employee {
+    private static int idCounter = 1; // Счётчик для уникальных ID сотрудников
     private int id;
-    private String fullname;
+    private String fullName;
     private String department;
-    private int evaluation; // Новый атрибут
+    private boolean evaluated;
 
-    public Employee(int id, String fullname, String department, int evaluation) {
-        this.id = id;
-        this.fullname = fullname;
+    // Конструктор
+    public Employee(String fullName, String department) {
+        this.id = idCounter++;
+        this.fullName = fullName;
         this.department = department;
-        this.evaluation = evaluation;
+        this.evaluated = false;  // Сотрудник ещё не оценен
     }
 
+    // Геттеры и сеттеры
     public int getId() {
         return id;
     }
 
-    public String getFullname() {
-        return fullname;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;  // Сеттер для fullName
     }
 
     public String getDepartment() {
@@ -33,11 +40,18 @@ public class Employee {
         this.department = department;
     }
 
-    public int getEvaluation() {
-        return evaluation;
+    public boolean isEvaluated() {
+        return evaluated;
     }
 
-    public void setEvaluation(int evaluation) {
-        this.evaluation = evaluation;
+    public void setEvaluated(boolean evaluated) {
+        this.evaluated = evaluated;
+    }
+
+    // Вычисление средней оценки (для примера, в реальной задаче, вероятно, будет другая логика)
+    public double calculateAverage() {
+        // Здесь можно реализовать логику подсчета средней оценки для сотрудника
+        return 10.0; // Пример, возвращаем фиксированную оценку
     }
 }
+

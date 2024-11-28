@@ -1,169 +1,146 @@
 package org.example.employeeperformanceevaluationsystem;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
 
 public class HelloController {
-
     @FXML
-    private TableView<Employee> employeeTableView;
-
+    private Tab employeeTab;
     @FXML
-    private TableView<Employee> marksTableView;
-
+    private Tab evaluationTab;
     @FXML
-    private TabPane tabPane;
-
+    private TableView<Employee> employeeTable;
     @FXML
-    private Tab employeeTab, marksTab, evaluationTab, addEditEmployeeTab;
-
+    private TableColumn<Employee, Integer> idColumn;
     @FXML
-    private TextField fullnameField, departmentField;
-
+    private TableColumn<Employee, String> nameColumn;
     @FXML
-    private Button addButton, editButton, deleteButton, saveButton;
-
+    private TableColumn<Employee, String> departmentColumn;
     @FXML
-    private VBox evaluationCriteriaBox;
-
+    private TableView<Evaluation> evaluationTable;
     @FXML
-    private Slider projectCompletionSlider, teamFeedbackSlider, attendanceSlider;
+    private TableColumn<Evaluation, String> employeeColumn;
+    @FXML
+    private TableColumn<Evaluation, Double> avgScoreColumn;
+    @FXML
+    private Button addEmployeeButton;
+    @FXML
+    private Button evaluateButton;
 
-    private ObservableList<Employee> employeeList;
-
-    private Employee selectedEmployee = null; // Для редактирования
+    private EmployeeManager employeeManager = new EmployeeManager();
 
     @FXML
     public void initialize() {
-        setupTabs();
-        setupEmployeeTable();
-        setupEmployeeTabButtons();
-        setupEvaluationTab();
+        // Инициализация таблиц
+        idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
+        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFullName()));
+        departmentColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDepartment()));
+
+        employeeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployee().getFullName()));
+        avgScoreColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().calculateAverage()).asObject());
+
+        // Слушатели для кнопок
+        addEmployeeButton.setOnAction(event -> addEmployee());
+        evaluateButton.setOnAction(event -> evaluateEmployee());
+
+        // Заполнение начальных данных
+        updateEmployeeTable();
     }
 
-    private void setupTabs() {
-        evaluationTab.setClosable(false); // Запрет закрытия вкладки Evaluation
-        addEditEmployeeTab.setClosable(true); // Вкладка для добавления/редактирования может закрываться
-    }
-
-    private void setupEmployeeTable() {
-        employeeList = FXCollections.observableArrayList(
-                new Employee(1, "Иван Иванов", "IT", 0),
-                new Employee(2, "Мария Смирнова", "HR", 0),
-                new Employee(3, "Алексей Кузнецов", "Marketing", 0)
-        );
-
-        TableColumn<Employee, Integer> idColumn = new TableColumn<>("ID");
-        idColumn.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getId()).asObject());
-
-        TableColumn<Employee, String> fullnameColumn = new TableColumn<>("Полное имя");
-        fullnameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getFullname()));
-
-        TableColumn<Employee, String> departmentColumn = new TableColumn<>("Отдел");
-        departmentColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDepartment()));
-
-        TableColumn<Employee, Integer> evaluationColumn = new TableColumn<>("Оценка");
-        evaluationColumn.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getEvaluation()).asObject());
-
-        employeeTableView.getColumns().addAll(idColumn, fullnameColumn, departmentColumn, evaluationColumn);
-        marksTableView.getColumns().addAll(idColumn, fullnameColumn, departmentColumn, evaluationColumn);
-
-        employeeTableView.setItems(employeeList);
-        marksTableView.setItems(employeeList);
-    }
-
-    private void setupEmployeeTabButtons() {
-        addButton.setOnAction(event -> openAddEditTab(null));
-        editButton.setOnAction(event -> {
-            Employee selected = employeeTableView.getSelectionModel().getSelectedItem();
-            if (selected == null) {
-                showAlert("Ошибка", "Выберите сотрудника для редактирования.");
-                return;
+    // Добавление сотрудника
+    public void addEmployee() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Add Employee");
+        dialog.setHeaderText("Enter Full Name and Department (comma separated):");
+        dialog.showAndWait().ifPresent(input -> {
+            String[] data = input.split(",");
+            if (data.length == 2) {
+                Employee newEmployee = new Employee(data[0], data[1]);
+                employeeManager.addEmployee(newEmployee);
+                updateEmployeeTable();
             }
-            openAddEditTab(selected);
         });
-        deleteButton.setOnAction(event -> deleteEmployee());
     }
 
-    private void openAddEditTab(Employee employee) {
-        if (employee != null) { // Редактирование
-            fullnameField.setText(employee.getFullname());
-            departmentField.setText(employee.getDepartment());
-            selectedEmployee = employee;
-        } else { // Добавление
-            fullnameField.clear();
-            departmentField.clear();
-            selectedEmployee = null;
-        }
-
-        if (!tabPane.getTabs().contains(addEditEmployeeTab)) {
-            tabPane.getTabs().add(addEditEmployeeTab);
-        }
-        tabPane.getSelectionModel().select(addEditEmployeeTab);
+    // Обновление таблицы сотрудников
+    private void updateEmployeeTable() {
+        employeeTable.getItems().setAll(employeeManager.getEmployees());
     }
 
-    @FXML
-    private void saveEmployee() {
-        String fullname = fullnameField.getText().trim();
-        String department = departmentField.getText().trim();
-
-        if (fullname.isEmpty() || department.isEmpty()) {
-            showAlert("Ошибка", "Все поля должны быть заполнены.");
-            return;
-        }
-
-        if (selectedEmployee == null) { // Добавление
-            int newId = employeeList.size() + 1;
-            employeeList.add(new Employee(newId, fullname, department, 0));
-        } else { // Редактирование
-            selectedEmployee.setFullname(fullname);
-            selectedEmployee.setDepartment(department);
-            employeeTableView.refresh();
-        }
-
-        tabPane.getTabs().remove(addEditEmployeeTab);
+    // Обновление таблицы оценок
+    private void updateEvaluationTable() {
+        evaluationTable.getItems().setAll(employeeManager.getEvaluations());
     }
 
-    private void deleteEmployee() {
-        Employee selected = employeeTableView.getSelectionModel().getSelectedItem();
-        if (selected == null) {
-            showAlert("Ошибка", "Выберите сотрудника для удаления.");
-            return;
+    // Оценка сотрудника
+    public void evaluateEmployee() {
+        Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
+        if (selectedEmployee != null && !selectedEmployee.isEvaluated()) {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Evaluate Employee");
+            dialog.setHeaderText("Enter Scores (Project, Colleague, Attendance):");
+            dialog.showAndWait().ifPresent(input -> {
+                String[] scores = input.split(",");
+                if (scores.length == 3) {
+                    try {
+                        double projectScore = Double.parseDouble(scores[0].trim());
+                        double colleagueScore = Double.parseDouble(scores[1].trim());
+                        double attendanceScore = Double.parseDouble(scores[2].trim());
+                        employeeManager.evaluateEmployee(selectedEmployee, projectScore, colleagueScore, attendanceScore);
+                        updateEmployeeTable();
+                        updateEvaluationTable();
+                    } catch (NumberFormatException e) {
+                        showErrorDialog("Invalid scores entered!");
+                    }
+                } else {
+                    showErrorDialog("Please enter three scores.");
+                }
+            });
+        } else {
+            showErrorDialog("Please select an employee or the employee has already been evaluated.");
         }
-        employeeList.remove(selected);
     }
 
-    private void setupEvaluationTab() {
-        Button saveButton = new Button("Сохранить");
-        saveButton.setOnAction(event -> {
-            Employee selected = marksTableView.getSelectionModel().getSelectedItem();
-            if (selected == null) {
-                showAlert("Ошибка", "Выберите сотрудника для оценки.");
-                return;
-            }
-
-            int projectScore = (int) projectCompletionSlider.getValue();
-            int teamScore = (int) teamFeedbackSlider.getValue();
-            int attendanceScore = (int) attendanceSlider.getValue();
-
-            int totalEvaluation = (projectScore + teamScore + attendanceScore) / 3;
-            selected.setEvaluation(totalEvaluation);
-
-            marksTableView.refresh();
-            employeeTableView.refresh();
-        });
-        evaluationCriteriaBox.getChildren().add(saveButton);
-    }
-
-    private void showAlert(String title, String content) {
+    // Ошибка валидации
+    private void showErrorDialog(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setContentText(content);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    // Удаление сотрудника
+    @FXML
+    private void removeEmployee() {
+        Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
+        if (selectedEmployee != null) {
+            employeeManager.removeEmployee(selectedEmployee);
+            updateEmployeeTable();
+        }
+    }
+
+    // Редактирование сотрудника
+    @FXML
+    private void editEmployee() {
+        Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
+        if (selectedEmployee != null) {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Edit Employee");
+            dialog.setHeaderText("Edit Employee's Full Name and Department:");
+            dialog.showAndWait().ifPresent(input -> {
+                String[] data = input.split(",");
+                if (data.length == 2) {
+                    employeeManager.editEmployee(selectedEmployee, data[0], data[1]);
+                    updateEmployeeTable();
+                }
+            });
+        }
     }
 }

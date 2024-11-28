@@ -2,51 +2,26 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.Scene?>
 
-<TabPane fx:id="tabPane" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.employeeperformanceevaluationsystem.HelloController">
-  <!-- Tab for managing employees -->
-  <Tab text="Employees" fx:id="employeeTab">
-    <VBox spacing="10" alignment="TOP_CENTER" padding="10">
-      <TableView fx:id="employeeTableView" VBox.vgrow="ALWAYS" />
-      <HBox spacing="10" alignment="CENTER">
-        <Button fx:id="addButton" text="Add Employee" />
-        <Button fx:id="editButton" text="Edit Employee" />
-        <Button fx:id="deleteButton" text="Delete Employee" />
-      </HBox>
-    </VBox>
-  </Tab>
-
-  <!-- Tab for evaluating employees -->
-  <Tab text="Marks" fx:id="marksTab">
-    <VBox spacing="10" alignment="TOP_CENTER" padding="10">
-      <TableView fx:id="marksTableView" VBox.vgrow="ALWAYS" />
-    </VBox>
-  </Tab>
-
-  <!-- Tab for evaluating criteria -->
-  <Tab text="Evaluation" fx:id="evaluationTab">
-    <VBox spacing="10" alignment="TOP_CENTER" padding="10" fx:id="evaluationCriteriaBox">
-      <Label text="Project Completion" />
-      <Slider fx:id="projectCompletionSlider" min="0" max="100" />
-
-      <Label text="Team Feedback" />
-      <Slider fx:id="teamFeedbackSlider" min="0" max="100" />
-
-      <Label text="Attendance" />
-      <Slider fx:id="attendanceSlider" min="0" max="100" />
-    </VBox>
-  </Tab>
-
-  <!-- Tab for adding or editing employees -->
-  <Tab text="Add/Edit Employee" fx:id="addEditEmployeeTab" closable="true">
-    <VBox spacing="10" alignment="TOP_CENTER" padding="10">
-      <Label text="Full Name:" />
-      <TextField fx:id="fullnameField" />
-
-      <Label text="Department:" />
-      <TextField fx:id="departmentField" />
-
-      <Button fx:id="saveButton" text="Save" onAction="#saveEmployee" />
-    </VBox>
-  </Tab>
-</TabPane>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.employeeperformanceevaluationsystem.HelloController">
+  <TabPane>
+    <Tab text="Employee">
+      <TableView fx:id="employeeTable">
+        <columns>
+          <TableColumn fx:id="idColumn" text="ID"/>
+          <TableColumn fx:id="nameColumn" text="Full Name"/>
+          <TableColumn fx:id="departmentColumn" text="Department"/>
+        </columns>
+      </TableView>
+    </Tab>
+    <Tab text="Evaluation">
+      <TableView fx:id="evaluationTable">
+        <columns>
+          <TableColumn fx:id="employeeColumn" text="Employee"/>
+          <TableColumn fx:id="avgScoreColumn" text="Average Score"/>
+        </columns>
+      </TableView>
+    </Tab>
+  </TabPane>
+</AnchorPane>
