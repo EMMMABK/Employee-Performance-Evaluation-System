@@ -2,26 +2,19 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.Scene?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.employeeperformanceevaluationsystem.HelloController">
-  <TabPane>
-    <Tab text="Employee">
-      <TableView fx:id="employeeTable">
-        <columns>
-          <TableColumn fx:id="idColumn" text="ID"/>
-          <TableColumn fx:id="nameColumn" text="Full Name"/>
-          <TableColumn fx:id="departmentColumn" text="Department"/>
-        </columns>
-      </TableView>
-    </Tab>
-    <Tab text="Evaluation">
-      <TableView fx:id="evaluationTable">
-        <columns>
-          <TableColumn fx:id="employeeColumn" text="Employee"/>
-          <TableColumn fx:id="avgScoreColumn" text="Average Score"/>
-        </columns>
-      </TableView>
-    </Tab>
-  </TabPane>
-</AnchorPane>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.employeeperformanceevaluationsystem.HelloController" spacing="10" alignment="TOP_CENTER" prefHeight="400" prefWidth="600">
+  <TableView fx:id="tableView" prefHeight="300" prefWidth="580">
+    <columns>
+      <TableColumn fx:id="idColumn" text="ID" />
+      <TableColumn fx:id="nameColumn" text="Full Name" />
+      <TableColumn fx:id="departmentColumn" text="Department" />
+      <TableColumn fx:id="evaluationColumn" text="Evaluation" />
+    </columns>
+  </TableView>
+  <HBox spacing="10" alignment="CENTER">
+    <Button text="Remove" />
+    <Button text="Edit" />
+    <Button text="Evaluate" />
+  </HBox>
+</VBox>
