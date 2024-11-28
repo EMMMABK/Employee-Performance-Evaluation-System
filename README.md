@@ -95,11 +95,5 @@
     this.evaluation = null; // Default evaluation is null until assessed
    }
    ```
-   
-5. Method Overloading
-6. Exception Handling
-7. Inheritance and Abstract Classes
-8. Method Overriding
-9. Interface
-10. Polymorphism
-11. Dependency Injection
+*4. Method Overloading: How is method overloading utilized in the project to handle different input types or parameters?*
+ * ответ
