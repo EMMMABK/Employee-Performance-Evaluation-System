@@ -1,25 +1,43 @@
 package org.example.employeeperformanceevaluationsystem;
 
 public class Employee {
-    private final String name;
-    private final String department;
-    private final int performanceScore;
+    private int id;
+    private String fullname;
+    private String department;
+    private int evaluation; // Новый атрибут
 
-    public Employee(String name, String department, int performanceScore) {
-        this.name = name;
+    public Employee(int id, String fullname, String department, int evaluation) {
+        this.id = id;
+        this.fullname = fullname;
         this.department = department;
-        this.performanceScore = performanceScore;
+        this.evaluation = evaluation;
     }
 
-    public String getName() {
-        return name;
+    public int getId() {
+        return id;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getDepartment() {
         return department;
     }
 
-    public int getPerformanceScore() {
-        return performanceScore;
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public int getEvaluation() {
+        return evaluation;
+    }
+
+    public void setEvaluation(int evaluation) {
+        this.evaluation = evaluation;
     }
 }

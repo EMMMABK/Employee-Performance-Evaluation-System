@@ -3,57 +3,30 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.employeeperformanceevaluationsystem.HelloController">
-  <top>
-    <Label text="Employee Performance Evaluation System" style="-fx-font-size: 18px; -fx-padding: 10;" />
-  </top>
-  <center>
-    <TabPane fx:id="tabPane">
-      <!-- Вкладка Employee -->
-      <Tab fx:id="employeeTab" text="Employee">
-        <VBox spacing="10" alignment="CENTER">
-          <!-- Уникальный fx:id для таблицы сотрудников -->
-          <TableView fx:id="employeeTableView">
-            <columns>
-              <TableColumn text="ID" />
-              <TableColumn text="Имя" />
-              <TableColumn text="Отдел" />
-            </columns>
-          </TableView>
-          <HBox spacing="10" alignment="CENTER">
-            <Button fx:id="addButton" text="Добавить" />
-            <Button fx:id="editButton" text="Редактировать" />
-            <Button fx:id="deleteButton" text="Удалить" />
-          </HBox>
-        </VBox>
-      </Tab>
-
-      <!-- Вкладка Marks -->
-      <Tab fx:id="marksTab" text="Marks">
-        <VBox spacing="10" alignment="CENTER">
-          <!-- Уникальный fx:id для таблицы сотрудников на вкладке Marks -->
-          <TableView fx:id="marksTableView">
-            <columns>
-              <TableColumn text="Имя сотрудника" />
-              <TableColumn text="Департамент" />
-            </columns>
-          </TableView>
-          <Button fx:id="evaluateButton" text="Оценить" />
-        </VBox>
-      </Tab>
-
-      <!-- Вкладка Evaluation -->
-      <Tab fx:id="evaluationTab" text="Evaluation">
-        <VBox fx:id="evaluationCriteriaBox" spacing="10" alignment="CENTER">
-          <Label text="Оцените сотрудника по следующим критериям:" />
-          <Label text="Сдача проектов:" />
-          <Slider fx:id="projectCompletionSlider" min="0" max="10" />
-          <Label text="Мнение сокомандников:" />
-          <Slider fx:id="teamFeedbackSlider" min="0" max="10" />
-          <Label text="Посещаемость:" />
-          <Slider fx:id="attendanceSlider" min="0" max="10" />
-        </VBox>
-      </Tab>
-    </TabPane>
-  </center>
-</BorderPane>
+<TabPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.employeeperformanceevaluationsystem.HelloController">
+  <Tab text="Employee">
+    <VBox>
+      <TableView fx:id="employeeTableView" />
+      <HBox spacing="10">
+        <Button fx:id="addButton" text="Add Employee" />
+        <Button fx:id="editButton" text="Edit Employee" />
+        <Button fx:id="deleteButton" text="Delete Employee" />
+      </HBox>
+    </VBox>
+  </Tab>
+  <Tab text="Marks">
+    <VBox>
+      <TableView fx:id="marksTableView" />
+    </VBox>
+  </Tab>
+  <Tab fx:id="evaluationTab" text="Evaluation">
+    <VBox fx:id="evaluationCriteriaBox" spacing="10">
+      <Label text="Project Completion" />
+      <Slider fx:id="projectCompletionSlider" min="0" max="100" />
+      <Label text="Team Feedback" />
+      <Slider fx:id="teamFeedbackSlider" min="0" max="100" />
+      <Label text="Attendance" />
+      <Slider fx:id="attendanceSlider" min="0" max="100" />
+    </VBox>
+  </Tab>
+</TabPane>

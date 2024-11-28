@@ -1,123 +1,34 @@
 package org.example.employeeperformanceevaluationsystem;
 
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import java.util.ArrayList;
-import java.util.List;
+import javafx.collections.ObservableList;
 
-public class EmployeePerformanceApp extends Application {
+public class EmployeePerformanceApp {
 
-    private List<Employee> employeeList = new ArrayList<>();
-    private VBox employeeDisplayArea;
+    private ObservableList<Employee> employeeList;
 
-    public static void main(String[] args) {
-        launch(args);
+    public EmployeePerformanceApp(ObservableList<Employee> employeeList) {
+        this.employeeList = employeeList;
     }
 
-    @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setTitle("Employee Performance Evaluation System");
-
-        // Main Layout
-        BorderPane mainLayout = new BorderPane();
-
-        // Input Form
-        VBox inputForm = createInputForm();
-
-        // Employee Display Area
-        employeeDisplayArea = new VBox();
-        employeeDisplayArea.setSpacing(10);
-        ScrollPane scrollPane = new ScrollPane(employeeDisplayArea);
-        scrollPane.setFitToWidth(true);
-
-        mainLayout.setLeft(inputForm);
-        mainLayout.setCenter(scrollPane);
-
-        // Scene
-        Scene scene = new Scene(mainLayout, 800, 600);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    public void addEmployee(Employee employee) {
+        employeeList.add(employee);
     }
 
-    private VBox createInputForm() {
-        VBox form = new VBox();
-        form.setSpacing(10);
-        form.setStyle("-fx-padding: 20; -fx-border-color: gray; -fx-border-width: 2;");
-
-        // Input Fields
-        TextField nameField = new TextField();
-        nameField.setPromptText("Employee Name");
-
-        TextField departmentField = new TextField();
-        departmentField.setPromptText("Department");
-
-        TextField performanceScoreField = new TextField();
-        performanceScoreField.setPromptText("Performance Score (1-100)");
-
-        Button addButton = new Button("Add Employee");
-        addButton.setOnAction(e -> {
-            String name = nameField.getText();
-            String department = departmentField.getText();
-            String scoreText = performanceScoreField.getText();
-
-            if (name.isEmpty() || department.isEmpty() || scoreText.isEmpty()) {
-                showAlert("Error", "All fields are required!");
-                return;
+    public void editEmployee(int id, String fullname, String department) {
+        for (Employee e : employeeList) {
+            if (e.getId() == id) {
+                e.setFullname(fullname);
+                e.setDepartment(department);
+                break;
             }
-
-            try {
-                int score = Integer.parseInt(scoreText);
-                if (score < 1 || score > 100) {
-                    showAlert("Error", "Performance score must be between 1 and 100.");
-                    return;
-                }
-
-                Employee employee = new Employee(name, department, score);
-                employeeList.add(employee);
-                addEmployeeToDisplay(employee);
-
-                nameField.clear();
-                departmentField.clear();
-                performanceScoreField.clear();
-
-            } catch (NumberFormatException ex) {
-                showAlert("Error", "Performance score must be a number.");
-            }
-        });
-
-        form.getChildren().addAll(
-                new Label("Add New Employee"),
-                nameField,
-                departmentField,
-                performanceScoreField,
-                addButton
-        );
-
-        return form;
+        }
     }
 
-    private void addEmployeeToDisplay(Employee employee) {
-        HBox employeeBox = new HBox();
-        employeeBox.setSpacing(10);
-        employeeBox.setStyle("-fx-padding: 10; -fx-border-color: lightgray; -fx-border-width: 1;");
-
-        Label nameLabel = new Label("Name: " + employee.getName());
-        Label departmentLabel = new Label("Department: " + employee.getDepartment());
-        Label scoreLabel = new Label("Score: " + employee.getPerformanceScore());
-
-        employeeBox.getChildren().addAll(nameLabel, departmentLabel, scoreLabel);
-        employeeDisplayArea.getChildren().add(employeeBox);
+    public void deleteEmployee(int id) {
+        employeeList.removeIf(e -> e.getId() == id);
     }
 
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setContentText(message);
-        alert.showAndWait();
+    public ObservableList<Employee> getEmployeeList() {
+        return employeeList;
     }
 }
-
-
