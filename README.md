@@ -85,7 +85,17 @@
 
     ```
     
-4. Constructor
+*3. Constructor: How are constructors used in the project to initialize objects with valid state?*
+ * The constructor in the Employee class initializes each employee with an ID, full name, department, and sets the evaluation to null initially
+   ```
+    public Employee(int id, String fullName, String department) {
+    this.id = id;
+    this.fullName = fullName;
+    this.department = department;
+    this.evaluation = null; // Default evaluation is null until assessed
+   }
+   ```
+   
 5. Method Overloading
 6. Exception Handling
 7. Inheritance and Abstract Classes
