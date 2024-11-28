@@ -62,6 +62,28 @@
 
 
 2. Access Modifiers
+   Private: Limits access to within the class, protecting data from external modification.
+    ```
+    private int id;
+   private String fullName;
+   private String department;
+   private Integer evaluation;
+    ```
+   Public: Allows access from other classes through methods.
+   ```
+   public Integer getEvaluation() {
+    return evaluation;
+   }
+   
+   public void setEvaluation(Integer evaluation) {
+       if (evaluation >= 0 && evaluation <= 10) {
+           this.evaluation = evaluation;
+       } else {
+           throw new IllegalArgumentException("Evaluation must be between 0 and 10");
+       }
+   }
+
+   ```
     
 4. Constructor
 5. Method Overloading
