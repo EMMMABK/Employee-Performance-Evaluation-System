@@ -20,7 +20,7 @@ public class EmployeeApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Employee Management");
+        primaryStage.setTitle("Employee Performance Evaluation System");
 
         // Таблица сотрудников
         TableColumn<Employee, Integer> idColumn = new TableColumn<>("ID");
