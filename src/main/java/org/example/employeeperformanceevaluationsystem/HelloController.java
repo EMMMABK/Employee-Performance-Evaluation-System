@@ -17,10 +17,16 @@ public class HelloController {
     private TableView<Employee> marksTableView;
 
     @FXML
-    private Button addButton, editButton, deleteButton;
+    private TabPane tabPane;
 
     @FXML
-    private Tab evaluationTab;
+    private Tab employeeTab, marksTab, evaluationTab, addEditEmployeeTab;
+
+    @FXML
+    private TextField fullnameField, departmentField;
+
+    @FXML
+    private Button addButton, editButton, deleteButton, saveButton;
 
     @FXML
     private VBox evaluationCriteriaBox;
@@ -29,6 +35,8 @@ public class HelloController {
     private Slider projectCompletionSlider, teamFeedbackSlider, attendanceSlider;
 
     private ObservableList<Employee> employeeList;
+
+    private Employee selectedEmployee = null; // Для редактирования
 
     @FXML
     public void initialize() {
@@ -39,7 +47,8 @@ public class HelloController {
     }
 
     private void setupTabs() {
-        evaluationTab.setClosable(false); // Запрет закрытия Evaluation
+        evaluationTab.setClosable(false); // Запрет закрытия вкладки Evaluation
+        addEditEmployeeTab.setClosable(true); // Вкладка для добавления/редактирования может закрываться
     }
 
     private void setupEmployeeTable() {
@@ -69,33 +78,55 @@ public class HelloController {
     }
 
     private void setupEmployeeTabButtons() {
-        addButton.setOnAction(event -> addEmployee());
-        editButton.setOnAction(event -> editEmployee());
+        addButton.setOnAction(event -> openAddEditTab(null));
+        editButton.setOnAction(event -> {
+            Employee selected = employeeTableView.getSelectionModel().getSelectedItem();
+            if (selected == null) {
+                showAlert("Ошибка", "Выберите сотрудника для редактирования.");
+                return;
+            }
+            openAddEditTab(selected);
+        });
         deleteButton.setOnAction(event -> deleteEmployee());
     }
 
-    private void addEmployee() {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Добавить сотрудника");
-        dialog.setHeaderText("Введите имя нового сотрудника:");
-        dialog.showAndWait().ifPresent(name -> {
-            int newId = employeeList.size() + 1;
-            employeeList.add(new Employee(newId, name, "Новый отдел", 0));
-        });
+    private void openAddEditTab(Employee employee) {
+        if (employee != null) { // Редактирование
+            fullnameField.setText(employee.getFullname());
+            departmentField.setText(employee.getDepartment());
+            selectedEmployee = employee;
+        } else { // Добавление
+            fullnameField.clear();
+            departmentField.clear();
+            selectedEmployee = null;
+        }
+
+        if (!tabPane.getTabs().contains(addEditEmployeeTab)) {
+            tabPane.getTabs().add(addEditEmployeeTab);
+        }
+        tabPane.getSelectionModel().select(addEditEmployeeTab);
     }
 
-    private void editEmployee() {
-        Employee selected = employeeTableView.getSelectionModel().getSelectedItem();
-        if (selected == null) {
-            showAlert("Ошибка", "Выберите сотрудника для редактирования.");
+    @FXML
+    private void saveEmployee() {
+        String fullname = fullnameField.getText().trim();
+        String department = departmentField.getText().trim();
+
+        if (fullname.isEmpty() || department.isEmpty()) {
+            showAlert("Ошибка", "Все поля должны быть заполнены.");
             return;
         }
 
-        TextInputDialog dialog = new TextInputDialog(selected.getFullname());
-        dialog.setTitle("Редактировать сотрудника");
-        dialog.setHeaderText("Измените имя:");
-        dialog.showAndWait().ifPresent(newName -> selected.setFullname(newName));
-        employeeTableView.refresh();
+        if (selectedEmployee == null) { // Добавление
+            int newId = employeeList.size() + 1;
+            employeeList.add(new Employee(newId, fullname, department, 0));
+        } else { // Редактирование
+            selectedEmployee.setFullname(fullname);
+            selectedEmployee.setDepartment(department);
+            employeeTableView.refresh();
+        }
+
+        tabPane.getTabs().remove(addEditEmployeeTab);
     }
 
     private void deleteEmployee() {
