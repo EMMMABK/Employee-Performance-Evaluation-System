@@ -2,58 +2,74 @@ package org.example.employeeperformanceevaluationsystem;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 public class HelloController {
+    @FXML
+    private TabPane tabPane;
 
     @FXML
-    private TextField nameField;
+    private Tab employeeTab, marksTab, evaluationTab;
 
     @FXML
-    private TextField departmentField;
+    private TableView<Employee> employeeTable;
 
     @FXML
-    private TextField performanceScoreField;
+    private Button addButton, editButton, deleteButton, evaluateButton;
 
     @FXML
-    private VBox employeeDisplayArea;
+    private VBox evaluationCriteriaBox;
 
     @FXML
-    private void onAddEmployeeButtonClick() {
-        String name = nameField.getText();
-        String department = departmentField.getText();
-        String scoreText = performanceScoreField.getText();
+    private Label evaluationLabel;
 
-        if (name.isEmpty() || department.isEmpty() || scoreText.isEmpty()) {
-            showAlert("Error", "All fields are required!");
-            return;
-        }
+    @FXML
+    private Slider projectCompletionSlider, teamFeedbackSlider, attendanceSlider;
 
-        try {
-            int score = Integer.parseInt(scoreText);
-            if (score < 1 || score > 100) {
-                showAlert("Error", "Performance score must be between 1 and 100.");
-                return;
-            }
-
-            Label employeeInfo = new Label("Name: " + name + ", Department: " + department + ", Score: " + score);
-            employeeInfo.setStyle("-fx-padding: 10; -fx-border-color: lightgray; -fx-border-width: 1;");
-            employeeDisplayArea.getChildren().add(employeeInfo);
-
-            // Clear fields
-            nameField.clear();
-            departmentField.clear();
-            performanceScoreField.clear();
-
-        } catch (NumberFormatException ex) {
-            showAlert("Error", "Performance score must be a number.");
-        }
+    @FXML
+    public void initialize() {
+        setupEmployeeTab();
+        setupMarksTab();
+        setupEvaluationTab();
     }
 
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setContentText(message);
-        alert.showAndWait();
+    private void setupEmployeeTab() {
+        addButton.setOnAction(event -> {
+            // Реализация функции добавления сотрудника
+            System.out.println("Добавить сотрудника");
+        });
+
+        editButton.setOnAction(event -> {
+            // Реализация функции редактирования сотрудника
+            System.out.println("Редактировать сотрудника");
+        });
+
+        deleteButton.setOnAction(event -> {
+            // Реализация функции удаления сотрудника
+            System.out.println("Удалить сотрудника");
+        });
+    }
+
+    private void setupMarksTab() {
+        evaluateButton.setOnAction(event -> {
+            // Открытие вкладки оценки
+            tabPane.getSelectionModel().select(evaluationTab);
+        });
+    }
+
+    private void setupEvaluationTab() {
+        // Сохранение данных после оценки
+        Button saveButton = new Button("Сохранить");
+        saveButton.setOnAction(event -> {
+            double projectScore = projectCompletionSlider.getValue();
+            double teamFeedbackScore = teamFeedbackSlider.getValue();
+            double attendanceScore = attendanceSlider.getValue();
+            System.out.println("Оценки сохранены: ");
+            System.out.println("Сдача проектов: " + projectScore);
+            System.out.println("Мнение сокомандников: " + teamFeedbackScore);
+            System.out.println("Посещаемость: " + attendanceScore);
+            // Реализация сохранения данных
+        });
+        evaluationCriteriaBox.getChildren().add(saveButton);
     }
 }
