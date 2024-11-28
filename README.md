@@ -14,17 +14,17 @@
 
 ## OOP Concepts and questions
 
-1. Encapsulation: How is encapsulation applied in the project to protect data and control access?
-   
-    Private fields: Fields like id, fullName, department, and evaluation are declared as private, preventing direct access from outside the class.
+ *1. Encapsulation: How is encapsulation applied in the project to protect data and control access?*
+
+ *  Private fields: Fields like id, fullName, department, and evaluation are declared as private, preventing direct access from outside the class.
     ```
     private int id;
     private String fullName;
     private String department;
     private Integer evaluation;
     ```
-    
-    Public getter and setter methods: These methods provide controlled access to the private fields, allowing validation or processing before updating or retrieving values.
+
+*   Public getter and setter methods: These methods provide controlled access to the private fields, allowing validation or processing before updating or retrieving values.
     ```
     public int getId() {
         return id;
