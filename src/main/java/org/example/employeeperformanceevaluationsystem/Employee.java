@@ -15,24 +15,55 @@ public class Employee {
         this.evaluation = new SimpleStringProperty(evaluation);
     }
 
+    // Геттеры и сеттеры для ID
+    public int getId() {
+        return id.get();
+    }
+
+    public void setId(int id) {
+        this.id.set(id);
+    }
+
     public IntegerProperty idProperty() {
         return id;
+    }
+
+    // Геттеры и сеттеры для FullName
+    public String getFullName() {
+        return fullName.get();
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName.set(fullName);
     }
 
     public StringProperty fullNameProperty() {
         return fullName;
     }
 
+    // Геттеры и сеттеры для Department
+    public String getDepartment() {
+        return department.get();
+    }
+
+    public void setDepartment(String department) {
+        this.department.set(department);
+    }
+
     public StringProperty departmentProperty() {
         return department;
     }
 
-    public StringProperty evaluationProperty() {
-        return evaluation;
+    // Геттеры и сеттеры для Evaluation
+    public String getEvaluation() {
+        return evaluation.get();
     }
 
     public void setEvaluation(String evaluation) {
         this.evaluation.set(evaluation);
     }
-}
 
+    public StringProperty evaluationProperty() {
+        return evaluation;
+    }
+}

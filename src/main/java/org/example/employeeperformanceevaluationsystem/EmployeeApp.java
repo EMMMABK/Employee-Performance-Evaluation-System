@@ -111,10 +111,53 @@ public class EmployeeApp extends Application {
     }
 
     private void editSelectedEmployee() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText("Edit feature not implemented yet!");
-        alert.showAndWait();
+        Employee selected = table.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "No employee selected!");
+            alert.showAndWait();
+            return;
+        }
+
+        Stage editStage = new Stage();
+        editStage.setTitle("Edit Employee");
+
+        Label nameLabel = new Label("Full Name:");
+        TextField nameField = new TextField(selected.getFullName());
+
+        Label deptLabel = new Label("Department:");
+        TextField deptField = new TextField(selected.getDepartment());
+
+        Button saveButton = new Button("Save");
+        saveButton.setOnAction(e -> {
+            String fullName = nameField.getText().trim();
+            String department = deptField.getText().trim();
+
+            if (!fullName.isEmpty() && !department.isEmpty()) {
+                selected.setFullName(fullName);
+                selected.setDepartment(department);
+                table.refresh(); // Обновляем таблицу
+                editStage.close();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "All fields must be filled!");
+                alert.showAndWait();
+            }
+        });
+
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(10));
+        grid.setHgap(10);
+        grid.setVgap(10);
+
+        grid.add(nameLabel, 0, 0);
+        grid.add(nameField, 1, 0);
+        grid.add(deptLabel, 0, 1);
+        grid.add(deptField, 1, 1);
+        grid.add(saveButton, 1, 2);
+
+        editStage.setScene(new Scene(grid, 300, 200));
+        editStage.showAndWait();
     }
+
 
     private void evaluateSelectedEmployee(Stage parentStage) {
         Employee selected = table.getSelectionModel().getSelectedItem();
