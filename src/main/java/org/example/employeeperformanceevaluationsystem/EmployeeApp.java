@@ -80,7 +80,7 @@ public class EmployeeApp extends Application {
             String department = deptField.getText().trim();
 
             if (!fullName.isEmpty() && !department.isEmpty()) {
-                int newId = employees.size() + 1; // Простой способ генерировать ID
+                int newId = employees.size() + 1; // Simple way to generate ID
                 employees.add(new Employee(newId, fullName, department, ""));
                 addStage.close();
             } else {
@@ -103,6 +103,12 @@ public class EmployeeApp extends Application {
         addStage.setScene(new Scene(grid, 300, 200));
         addStage.showAndWait();
     }
+
+    // Overloaded method for adding an employee with pre-defined details (programmatically)
+    private void addNewEmployee(int id, String fullName, String department, String evaluation) {
+        employees.add(new Employee(id, fullName, department, evaluation));
+    }
+
 
     private void removeSelectedEmployee() {
         Employee selected = table.getSelectionModel().getSelectedItem();
