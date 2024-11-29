@@ -16,6 +16,7 @@ public class EmployeeApp extends Application {
             new Employee(1, "John Doe", "IT", ""),
             new Employee(2, "Jane Smith", "HR", ""),
             new Employee(3, "Tom Brown", "Finance", "")
+
     );
 
     @Override
@@ -44,12 +45,23 @@ public class EmployeeApp extends Application {
 
         Button addButton = new Button("Add");
         addButton.setOnAction(e -> addNewEmployee());
+//        Using Overloading Method for add function
+        addNewEmployee(999, "Admin Adminov", "System Administrator", "10.0");
+        addNewEmployee(998, "Test Tester", "Tester QA", "10.0");
 
         Button removeButton = new Button("Remove");
         removeButton.setOnAction(e -> removeSelectedEmployee());
+//        Using Overloading Method  for remove function
+        removeSelectedEmployee(998);  // Удаляет сотрудника с ID 2
+
 
         Button editButton = new Button("Edit");
         editButton.setOnAction(e -> editSelectedEmployee());
+//        Using Overloading Method for edit function
+        Employee selected = table.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            editSelectedEmployee(selected, "Edit Overload", "Overloading Department", "9.0");
+        }
 
         Button evaluateButton = new Button("Evaluate");
         evaluateButton.setOnAction(e -> evaluateSelectedEmployee(primaryStage));
@@ -110,6 +122,17 @@ public class EmployeeApp extends Application {
         addStage.showAndWait();
     }
 
+//    Overloading Method for add function
+    private void addNewEmployee(int id, String fullName, String department, String evaluation) {
+        if (!fullName.isEmpty() && !department.isEmpty()) {
+            employees.add(new Employee(id, fullName, department, evaluation));
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "All fields must be filled!");
+            alert.showAndWait();
+        }
+    }
+
+
 
     private void removeSelectedEmployee() {
         Employee selected = table.getSelectionModel().getSelectedItem();
@@ -117,6 +140,22 @@ public class EmployeeApp extends Application {
             employees.remove(selected);
         }
     }
+
+//    Overloading method for Remove Function
+    private void removeSelectedEmployee(int id) {
+    Employee toRemove = employees.stream()
+            .filter(employee -> employee.getId() == id)
+            .findFirst()
+            .orElse(null);
+
+    if (toRemove != null) {
+        employees.remove(toRemove);
+    } else {
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Employee not found!");
+        alert.showAndWait();
+    }
+    }
+
 
     private void editSelectedEmployee() {
         Employee selected = table.getSelectionModel().getSelectedItem();
@@ -183,6 +222,20 @@ public class EmployeeApp extends Application {
         editStage.setScene(new Scene(grid, 350, 250));
         editStage.showAndWait();
     }
+//    Overloading method for Edit function
+
+    private void editSelectedEmployee(Employee employee, String fullName, String department, String evaluation) {
+        if (employee != null && !fullName.isEmpty() && !department.isEmpty() && !evaluation.isEmpty()) {
+            employee.setFullName(fullName);
+            employee.setDepartment(department);
+            employee.setEvaluation(evaluation);
+            table.refresh();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Invalid data or no employee selected!");
+            alert.showAndWait();
+        }
+    }
+
 
 
 
