@@ -1,88 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.employeeperformanceevaluationsystem.HelloController">
-  <children>
-    <!-- TableView for displaying employees -->
-    <TableView fx:id="employeeTable" layoutX="14.0" layoutY="14.0" prefHeight="250.0" prefWidth="570.0">
-      <columns>
-        <TableColumn fx:id="idColumn" text="ID" />
-        <TableColumn fx:id="nameColumn" text="Full Name" />
-        <TableColumn fx:id="departmentColumn" text="Department" />
-        <TableColumn fx:id="evaluationColumn" text="Evaluation" />
-      </columns>
-    </TableView>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.employeeperformanceevaluationsystem.HelloController" spacing="20" alignment="TOP_CENTER" prefHeight="600" prefWidth="600" style="-fx-background-color: #f4f4f4; -fx-padding: 20;">
 
-    <!-- Buttons for Add, Edit, Remove, and Evaluate -->
-    <HBox layoutX="14.0" layoutY="280.0" spacing="10.0" padding="10.0">
-      <Button fx:id="addButton" text="Add" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
-      <Button fx:id="removeButton" text="Remove" style="-fx-background-color: #f44336; -fx-text-fill: white;" />
-      <Button fx:id="editButton" text="Edit" style="-fx-background-color: #2196F3; -fx-text-fill: white;" />
-      <Button fx:id="evaluateButton" text="Evaluate" style="-fx-background-color: #FFC107; -fx-text-fill: white;" />
-    </HBox>
+  <!-- Таблица -->
+  <TableView fx:id="tableView" prefHeight="300" prefWidth="580" style="-fx-background-color: #ffffff; -fx-border-color: #dddddd; -fx-border-width: 1;">
+    <columns>
+      <TableColumn fx:id="idColumn" text="ID" style="-fx-font-weight: bold;" />
+      <TableColumn fx:id="nameColumn" text="Full Name" style="-fx-font-weight: bold;" />
+      <TableColumn fx:id="departmentColumn" text="Department" style="-fx-font-weight: bold;" />
+      <TableColumn fx:id="evaluationColumn" text="Evaluation" style="-fx-font-weight: bold;" />
+    </columns>
+  </TableView>
 
-    <!-- Popup for Adding/Editing Employee -->
-    <VBox layoutX="50.0" layoutY="100.0" spacing="10.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 5; -fx-padding: 10;">
-      <Label text="Full Name:" />
-      <TextField fx:id="nameField" />
-      <Label text="Department:" />
-      <TextField fx:id="deptField" />
-      <Button fx:id="saveButton" text="Save" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
-    </VBox>
-  </children>
-</AnchorPane>
+  <!-- Панель кнопок -->
+  <HBox spacing="15" alignment="CENTER" style="-fx-background-color: #ffffff; -fx-padding: 10;">
+    <Button fx:id="addButton" text="Add" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10 20; -fx-font-size: 14px; -fx-background-radius: 5; -fx-border-radius: 5;" />
+    <Button fx:id="editButton" text="Edit" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 10 20; -fx-font-size: 14px; -fx-background-radius: 5; -fx-border-radius: 5;" />
+    <Button fx:id="evaluateButton" text="Evaluate" style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-padding: 10 20; -fx-font-size: 14px; -fx-background-radius: 5; -fx-border-radius: 5;"/>
+    <Button fx:id="removeButton" text="Remove" style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-padding: 10 20; -fx-font-size: 14px; -fx-background-radius: 5; -fx-border-radius: 5;" />
+  </HBox>
 
+  <!-- GridPane для редактирования -->
+  <GridPane fx:id="editGridPane" visible="false" padding="20" hgap="10" vgap="10" style="-fx-background-color: #ffffff; -fx-border-color: #dddddd; -fx-border-radius: 10; -fx-padding: 20;">
+    <Label text="Full Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;" />
+    <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0" style="-fx-padding: 5; -fx-font-size: 14px; -fx-border-radius: 5; -fx-border-color: #dddddd;" />
+    <Label text="Department:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;" />
+    <TextField fx:id="deptField" GridPane.columnIndex="1" GridPane.rowIndex="1" style="-fx-padding: 5; -fx-font-size: 14px; -fx-border-radius: 5; -fx-border-color: #dddddd;" />
+    <Label text="Evaluation (0-10):" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;" />
+    <TextField fx:id="evaluationField" GridPane.columnIndex="1" GridPane.rowIndex="2" promptText="Enter a number between 0 and 10" style="-fx-padding: 5; -fx-font-size: 14px; -fx-border-radius: 5; -fx-border-color: #dddddd;" />
+    <Button fx:id="saveEditButton" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="3" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10 20; -fx-font-size: 14px; -fx-background-radius: 5; -fx-border-radius: 5;" />
+  </GridPane>
 
-        <!--<?xml version="1.0" encoding="UTF-8"?>-->
+  <!-- GridPane для оценки -->
+  <GridPane fx:id="evaluateGridPane" visible="false" padding="20" hgap="10" vgap="10" style="-fx-background-color: #ffffff; -fx-border-color: #dddddd; -fx-border-radius: 10; -fx-padding: 20;">
+    <Label text="Hard Skills:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;" />
+    <TextField fx:id="hardSkillsField" GridPane.columnIndex="1" GridPane.rowIndex="0" style="-fx-padding: 5; -fx-font-size: 14px; -fx-border-radius: 5; -fx-border-color: #dddddd;" />
+    <Label text="Soft Skills:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;" />
+    <TextField fx:id="softSkillsField" GridPane.columnIndex="1" GridPane.rowIndex="1" style="-fx-padding: 5; -fx-font-size: 14px; -fx-border-radius: 5; -fx-border-color: #dddddd;" />
+    <Label text="Attendance:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;" />
+    <TextField fx:id="attendanceField" GridPane.columnIndex="1" GridPane.rowIndex="2" promptText="Enter attendance percentage" style="-fx-padding: 5; -fx-font-size: 14px; -fx-border-radius: 5; -fx-border-color: #dddddd;" />
+    <Button fx:id="saveEvaluateButton" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="3" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10 20; -fx-font-size: 14px; -fx-background-radius: 5; -fx-border-radius: 5;" />
+  </GridPane>
 
-<!--<?import javafx.scene.control.*?>-->
-<!--<?import javafx.scene.layout.*?>-->
-
-<!--<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.employeeperformanceevaluationsystem.HelloController" spacing="10" alignment="TOP_CENTER" prefHeight="600" prefWidth="600">-->
-<!--  <TableView fx:id="tableView" prefHeight="300" prefWidth="580">-->
-<!--    <columns>-->
-<!--      <TableColumn fx:id="idColumn" text="ID" />-->
-<!--      <TableColumn fx:id="nameColumn" text="Full Name" />-->
-<!--      <TableColumn fx:id="departmentColumn" text="Department" />-->
-<!--      <TableColumn fx:id="evaluationColumn" text="Evaluation" />-->
-<!--    </columns>-->
-<!--  </TableView>-->
-<!--  <HBox spacing="10" alignment="CENTER">-->
-<!--    <Button fx:id="addButton" text="Add" />-->
-<!--    <Button fx:id="editButton" text="Edit" />-->
-<!--    <Button fx:id="evaluateButton" text="Evaluate" />-->
-<!--    <Button fx:id="removeButton" text="Remove" />-->
-<!--  </HBox>-->
-
-
-<!--  &lt;!&ndash; GridPane для редактирования информации &ndash;&gt;-->
-<!--  <GridPane fx:id="editGridPane" visible="false" padding="10" hgap="10" vgap="10">-->
-<!--    <Label text="Full Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />-->
-<!--    <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0" />-->
-<!--    <Label text="Department:" GridPane.columnIndex="0" GridPane.rowIndex="1" />-->
-<!--    <TextField fx:id="deptField" GridPane.columnIndex="1" GridPane.rowIndex="1" />-->
-<!--    <Label text="Evaluation (0-10):" GridPane.columnIndex="0" GridPane.rowIndex="2" />-->
-<!--    <TextField fx:id="evaluationField" GridPane.columnIndex="1" GridPane.rowIndex="2" promptText="Enter a number between 0 and 10" />-->
-<!--    <Button fx:id="saveEditButton" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="3" />-->
-<!--  </GridPane>-->
-
-<!--  &lt;!&ndash; GridPane для оценки навыков &ndash;&gt;-->
-<!--  <GridPane fx:id="evaluateGridPane" visible="false" padding="10" hgap="10" vgap="10">-->
-<!--    <Label text="Hard Skills:" GridPane.columnIndex="0" GridPane.rowIndex="0" />-->
-<!--    <TextField fx:id="hardSkillsField" GridPane.columnIndex="1" GridPane.rowIndex="0" />-->
-<!--    <Label text="Soft Skills:" GridPane.columnIndex="0" GridPane.rowIndex="1" />-->
-<!--    <TextField fx:id="softSkillsField" GridPane.columnIndex="1" GridPane.rowIndex="1" />-->
-<!--    <Label text="Attendance:" GridPane.columnIndex="0" GridPane.rowIndex="2" />-->
-<!--    <TextField fx:id="attendanceField" GridPane.columnIndex="1" GridPane.rowIndex="2" promptText="Enter attendance percentage" />-->
-<!--    <Button fx:id="saveEvaluateButton" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="3" />-->
-<!--  </GridPane>-->
-<!--</VBox>-->
+</VBox>

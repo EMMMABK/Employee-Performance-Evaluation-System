@@ -6,8 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.stage.Stage;
+        import javafx.scene.layout.*;
+        import javafx.stage.Stage;
 
 public class EmployeeApp extends Application {
 
