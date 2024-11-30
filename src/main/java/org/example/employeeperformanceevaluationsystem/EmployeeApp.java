@@ -86,21 +86,21 @@ public class EmployeeApp extends Application {
         Label deptLabel = new Label("Department:");
         TextField deptField = new TextField();
 
-        Label jobTitleLabel = new Label("Job Title:");
-        TextField jobTitleField = new TextField();
+        Label evaluationLabel = new Label("Evaluation:");
+        TextField evaluationField = new TextField();
 
         Button saveButton = new Button("Save");
         saveButton.setOnAction(e -> {
             String fullName = nameField.getText().trim();
             String department = deptField.getText().trim();
-            String jobTitle = jobTitleField.getText().trim();
+            String evaluation = evaluationField.getText().trim();
 
-            if (!fullName.isEmpty() && !department.isEmpty() && !jobTitle.isEmpty()) {
+            if (!fullName.isEmpty() && !department.isEmpty()) {
                 int newId = employees.size() + 1; // Simple way to generate ID
-                employees.add(new Employee(newId, fullName, department, jobTitle));
+                employees.add(new Employee(newId, fullName, department, evaluation));
                 addStage.close();
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "All fields must be filled!");
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Fields 'FullName' , 'Department' must be filled!");
                 alert.showAndWait();
             }
         });
@@ -114,8 +114,8 @@ public class EmployeeApp extends Application {
         grid.add(nameField, 1, 0);
         grid.add(deptLabel, 0, 1);
         grid.add(deptField, 1, 1);
-        grid.add(jobTitleLabel, 0, 2);
-        grid.add(jobTitleField, 1, 2);
+        grid.add(evaluationLabel, 0, 2);
+        grid.add(evaluationLabel, 1, 2);
         grid.add(saveButton, 1, 3);
 
         addStage.setScene(new Scene(grid, 300, 250));
