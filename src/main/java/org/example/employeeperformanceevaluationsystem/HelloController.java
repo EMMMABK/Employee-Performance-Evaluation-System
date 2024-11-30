@@ -64,11 +64,20 @@ public class HelloController {
     private Button evaluateButton;
 
     public void initialize() {
+        // Привязка столбцов к соответствующим свойствам Employee
+        idColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
+        nameColumn.setCellValueFactory(cellData -> cellData.getValue().fullNameProperty());
+        departmentColumn.setCellValueFactory(cellData -> cellData.getValue().departmentProperty());
+        evaluationColumn.setCellValueFactory(cellData -> cellData.getValue().evaluationProperty());
+
+        // Инициализация кнопок
         addButton.setOnAction(e -> addNewEmployee());
         removeButton.setOnAction(e -> removeSelectedEmployee());
         editButton.setOnAction(e -> editSelectedEmployee());
         evaluateButton.setOnAction(e -> evaluateSelectedEmployee());
     }
+
+
 
     private void addNewEmployee() {
         TextInputDialog dialog = new TextInputDialog();
