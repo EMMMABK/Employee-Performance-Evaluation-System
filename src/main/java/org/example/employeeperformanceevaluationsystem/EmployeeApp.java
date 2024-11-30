@@ -27,7 +27,7 @@ public class EmployeeApp extends Application {
     public void start (Stage primaryStage) {
         try {
             // Correct path to FXML file relative to classpath
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/hello-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
             Parent root = loader.load();
 
             Scene scene = new Scene(root);
