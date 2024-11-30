@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.employeeperformanceevaluationsystem.HelloController" spacing="10" alignment="TOP_CENTER" prefHeight="400" prefWidth="600">
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.employeeperformanceevaluationsystem.HelloController" spacing="10" alignment="TOP_CENTER" prefHeight="600" prefWidth="600">
   <TableView fx:id="tableView" prefHeight="300" prefWidth="580">
     <columns>
       <TableColumn fx:id="idColumn" text="ID" />
@@ -13,8 +13,30 @@
     </columns>
   </TableView>
   <HBox spacing="10" alignment="CENTER">
-    <Button text="Remove" />
-    <Button text="Edit" />
-    <Button text="Evaluate" />
+    <Button fx:id="removeButton" text="Remove" />
+    <Button fx:id="editButton" text="Edit" />
+    <Button fx:id="evaluateButton" text="Evaluate" />
   </HBox>
+
+  <!-- GridPane для редактирования информации -->
+  <GridPane fx:id="editGridPane" visible="false" padding="10" hgap="10" vgap="10">
+    <Label text="Full Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+    <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+    <Label text="Department:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <TextField fx:id="deptField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    <Label text="Evaluation (0-10):" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+    <TextField fx:id="evaluationField" GridPane.columnIndex="1" GridPane.rowIndex="2" promptText="Enter a number between 0 and 10" />
+    <Button fx:id="saveEditButton" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+  </GridPane>
+
+  <!-- GridPane для оценки навыков -->
+  <GridPane fx:id="evaluateGridPane" visible="false" padding="10" hgap="10" vgap="10">
+    <Label text="Hard Skills:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+    <TextField fx:id="hardSkillsField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+    <Label text="Soft Skills:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <TextField fx:id="softSkillsField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    <Label text="Attendance:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+    <TextField fx:id="attendanceField" GridPane.columnIndex="1" GridPane.rowIndex="2" promptText="Enter attendance percentage" />
+    <Button fx:id="saveEvaluateButton" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+  </GridPane>
 </VBox>
