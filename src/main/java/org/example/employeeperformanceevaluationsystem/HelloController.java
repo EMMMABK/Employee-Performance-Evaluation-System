@@ -69,6 +69,7 @@ public class HelloController {
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().fullNameProperty());
         departmentColumn.setCellValueFactory(cellData -> cellData.getValue().departmentProperty());
         evaluationColumn.setCellValueFactory(cellData -> cellData.getValue().evaluationProperty());
+        System.out.println("Initializing controller...");
 
         // Инициализация кнопок
         addButton.setOnAction(e -> addNewEmployee());
