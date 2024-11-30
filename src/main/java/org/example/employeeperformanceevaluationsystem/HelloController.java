@@ -22,6 +22,12 @@ public class HelloController {
     private TableColumn<Employee, String> evaluationColumn;
 
     @FXML
+    private Button removeButton;
+
+    @FXML
+    private Button addButton;
+
+    @FXML
     private GridPane editGridPane;
 
     @FXML
@@ -58,8 +64,62 @@ public class HelloController {
     private Button evaluateButton;
 
     public void initialize() {
+        addButton.setOnAction(e -> addNewEmployee());
+        removeButton.setOnAction(e -> removeSelectedEmployee());
         editButton.setOnAction(e -> editSelectedEmployee());
         evaluateButton.setOnAction(e -> evaluateSelectedEmployee());
+    }
+
+    private void addNewEmployee() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Add New Employee");
+        dialog.setHeaderText("Enter new employee details");
+        dialog.setContentText("Format: FullName, Department, Evaluation (0-10)");
+
+        dialog.showAndWait().ifPresent(input -> {
+            String[] parts = input.split(",");
+            if (parts.length != 3) {
+                showAlert("Invalid format! Use: FullName, Department, Evaluation", Alert.AlertType.WARNING);
+                return;
+            }
+
+            try {
+                String fullName = parts[0].trim();
+                String department = parts[1].trim();
+                double evaluation = Double.parseDouble(parts[2].trim());
+
+                if (evaluation < 0 || evaluation > 10) {
+                    throw new NumberFormatException("Evaluation out of range");
+                }
+
+                // Генерация уникального ID для нового сотрудника
+                int newId = generateNewEmployeeId();
+
+                Employee newEmployee = new Employee(newId, fullName, department, String.valueOf(evaluation));
+                tableView.getItems().add(newEmployee);
+                showAlert("Employee added successfully!", Alert.AlertType.INFORMATION);
+            } catch (NumberFormatException e) {
+                showAlert("Evaluation must be a number between 0 and 10!", Alert.AlertType.WARNING);
+            }
+        });
+    }
+
+    private int generateNewEmployeeId() {
+        // Логика для генерации уникального ID
+        // Пример генерации ID, можно заменить на более сложный механизм, например, инкремент.
+        return (int) (Math.random() * 10000);  // Простой пример
+    }
+
+
+    private void removeSelectedEmployee() {
+        Employee selected = tableView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showAlert("No employee selected!", Alert.AlertType.WARNING);
+            return;
+        }
+
+        tableView.getItems().remove(selected);
+        showAlert("Employee removed successfully!", Alert.AlertType.INFORMATION);
     }
 
     private void editSelectedEmployee() {
@@ -123,8 +183,11 @@ public class HelloController {
                 return;
             }
 
-            // Здесь добавьте логику для сохранения данных оценки
+            String evaluationDetails = String.format("Hard: %s, Soft: %s, Attendance: %s", hardSkills, softSkills, attendance);
+            selected.setEvaluation(evaluationDetails);
+            tableView.refresh();
             evaluateGridPane.setVisible(false);
+            showAlert("Evaluation saved successfully!", Alert.AlertType.INFORMATION);
         });
     }
 
@@ -133,3 +196,4 @@ public class HelloController {
         alert.showAndWait();
     }
 }
+

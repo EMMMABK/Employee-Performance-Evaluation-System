@@ -13,10 +13,12 @@
     </columns>
   </TableView>
   <HBox spacing="10" alignment="CENTER">
-    <Button fx:id="removeButton" text="Remove" />
+    <Button fx:id="addButton" text="Add" />
     <Button fx:id="editButton" text="Edit" />
     <Button fx:id="evaluateButton" text="Evaluate" />
+    <Button fx:id="removeButton" text="Remove" />
   </HBox>
+
 
   <!-- GridPane для редактирования информации -->
   <GridPane fx:id="editGridPane" visible="false" padding="10" hgap="10" vgap="10">

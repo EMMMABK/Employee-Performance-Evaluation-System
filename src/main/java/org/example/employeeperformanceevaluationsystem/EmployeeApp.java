@@ -101,19 +101,6 @@ public class EmployeeApp extends Application {
             }
         });
 
-        GridPane grid = new GridPane();
-        grid.setPadding(new Insets(10));
-        grid.setHgap(10);
-        grid.setVgap(10);
-
-        grid.add(nameLabel, 0, 0);
-        grid.add(nameField, 1, 0);
-        grid.add(deptLabel, 0, 1);
-        grid.add(deptField, 1, 1);
-        grid.add(saveButton, 1, 2);
-
-        addStage.setScene(new Scene(grid, 300, 200));
-        addStage.showAndWait();
     }
 
 
