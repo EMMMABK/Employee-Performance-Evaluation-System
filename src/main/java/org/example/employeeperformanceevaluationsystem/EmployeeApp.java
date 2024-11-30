@@ -201,22 +201,6 @@ public class EmployeeApp extends Application {
                 alert.showAndWait();
             }
         });
-
-        GridPane grid = new GridPane();
-        grid.setPadding(new Insets(10));
-        grid.setHgap(10);
-        grid.setVgap(10);
-
-        grid.add(nameLabel, 0, 0);
-        grid.add(nameField, 1, 0);
-        grid.add(deptLabel, 0, 1);
-        grid.add(deptField, 1, 1);
-        grid.add(evaluationLabel, 0, 2);
-        grid.add(evaluationField, 1, 2);
-        grid.add(saveButton, 1, 3);
-
-        editStage.setScene(new Scene(grid, 350, 250));
-        editStage.showAndWait();
     }
 //    Overloading method for Edit function
 
@@ -286,22 +270,6 @@ public class EmployeeApp extends Application {
                 alert.showAndWait();
             }
         });
-
-        GridPane grid = new GridPane();
-        grid.setPadding(new Insets(10));
-        grid.setHgap(10);
-        grid.setVgap(10);
-
-        grid.add(hardSkillsLabel, 0, 0);
-        grid.add(hardSkillsField, 1, 0);
-        grid.add(softSkillsLabel, 0, 1);
-        grid.add(softSkillsField, 1, 1);
-        grid.add(attendanceLabel, 0, 2);
-        grid.add(attendanceField, 1, 2);
-        grid.add(saveButton, 1, 3);
-
-        evaluateStage.setScene(new Scene(grid, 400, 250));
-        evaluateStage.showAndWait();
     }
 
     // Метод для валидации оценки
