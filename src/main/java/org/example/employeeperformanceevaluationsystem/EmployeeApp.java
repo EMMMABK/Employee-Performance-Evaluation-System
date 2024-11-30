@@ -37,7 +37,7 @@ public class EmployeeApp extends Application {
         evalColumn.setCellValueFactory(cellData -> cellData.getValue().evaluationProperty());
 
         table.setItems(employees);
-        table.getColumns().addAll(idColumn, nameColumn, deptColumn, evalColumn);
+        table.getColumns().addAll(idColumn, nameColumn, deptColumn);
 
         // Кнопки управления
         HBox buttonBox = new HBox(10);
@@ -46,8 +46,8 @@ public class EmployeeApp extends Application {
         Button addButton = new Button("Add");
         addButton.setOnAction(e -> addNewEmployee());
 //        Using Overloading Method for add function
-        addNewEmployee(999, "Admin Adminov", "System Administrator", "10.0");
-        addNewEmployee(998, "Test Tester", "Tester QA", "10.0");
+        addNewEmployee(999, "Admin Adminov", "System Administrator");
+        addNewEmployee(998, "Test Tester", "Tester QA");
 
         Button removeButton = new Button("Remove");
         removeButton.setOnAction(e -> removeSelectedEmployee());
@@ -86,21 +86,17 @@ public class EmployeeApp extends Application {
         Label deptLabel = new Label("Department:");
         TextField deptField = new TextField();
 
-        Label evaluationLabel = new Label("Evaluation:");
-        TextField evaluationField = new TextField();
-
         Button saveButton = new Button("Save");
         saveButton.setOnAction(e -> {
             String fullName = nameField.getText().trim();
             String department = deptField.getText().trim();
-            String evaluation = evaluationField.getText().trim();
 
             if (!fullName.isEmpty() && !department.isEmpty()) {
                 int newId = employees.size() + 1; // Simple way to generate ID
-                employees.add(new Employee(newId, fullName, department, evaluation));
+                employees.add(new Employee(newId, fullName, department, "")); // Устанавливаем evaluation как пустую строку
                 addStage.close();
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Fields 'FullName' , 'Department' must be filled!");
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Fields 'FullName' and 'Department' must be filled!");
                 alert.showAndWait();
             }
         });
@@ -114,23 +110,23 @@ public class EmployeeApp extends Application {
         grid.add(nameField, 1, 0);
         grid.add(deptLabel, 0, 1);
         grid.add(deptField, 1, 1);
-        grid.add(evaluationLabel, 0, 2);
-        grid.add(evaluationLabel, 1, 2);
-        grid.add(saveButton, 1, 3);
+        grid.add(saveButton, 1, 2);
 
-        addStage.setScene(new Scene(grid, 300, 250));
+        addStage.setScene(new Scene(grid, 300, 200));
         addStage.showAndWait();
     }
 
-//    Overloading Method for add function
-    private void addNewEmployee(int id, String fullName, String department, String evaluation) {
+
+    //    Overloading Method for add function
+    private void addNewEmployee(int id, String fullName, String department) {
         if (!fullName.isEmpty() && !department.isEmpty()) {
-            employees.add(new Employee(id, fullName, department, evaluation));
+            employees.add(new Employee(id, fullName, department, "")); // Evaluation устанавливается пустым
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING, "All fields must be filled!");
             alert.showAndWait();
         }
     }
+
 
 
 
