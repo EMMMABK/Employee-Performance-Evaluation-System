@@ -4,12 +4,10 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
 
 
 public class EmployeeApp extends Application {
@@ -22,22 +20,8 @@ public class EmployeeApp extends Application {
     );
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        // Загружаем FXML файл
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
-
-        // Загружаем корневой элемент из FXML
-        Parent root = loader.load();
-
-        // Создаем сцену с корневым элементом
-        Scene scene = new Scene(root);
-
-        // Устанавливаем сцену в окно
-        primaryStage.setScene(scene);
-
-        // Настроим заголовок окна и показываем его
+    public void start(Stage primaryStage){
         primaryStage.setTitle("Employee Performance Evaluation");
-        primaryStage.show();
 
         // Таблица сотрудников
         TableColumn<Employee, Integer> idColumn = new TableColumn<>("ID");
