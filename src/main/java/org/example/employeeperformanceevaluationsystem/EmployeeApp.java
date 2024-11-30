@@ -37,7 +37,7 @@ public class EmployeeApp extends Application {
         evalColumn.setCellValueFactory(cellData -> cellData.getValue().evaluationProperty());
 
         table.setItems(employees);
-        table.getColumns().addAll(idColumn, nameColumn, deptColumn);
+        table.getColumns().addAll(idColumn, nameColumn, deptColumn, evalColumn);
 
         // Кнопки управления
         HBox buttonBox = new HBox(10);
@@ -92,8 +92,8 @@ public class EmployeeApp extends Application {
             String department = deptField.getText().trim();
 
             if (!fullName.isEmpty() && !department.isEmpty()) {
-                int newId = employees.size() + 1; // Simple way to generate ID
-                employees.add(new Employee(newId, fullName, department, "")); // Устанавливаем evaluation как пустую строку
+                int newId = employees.size() + 1; // Генерация нового ID
+                employees.add(new Employee(newId, fullName, department, "")); // Evaluation всегда пустое
                 addStage.close();
             } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING, "Fields 'FullName' and 'Department' must be filled!");
