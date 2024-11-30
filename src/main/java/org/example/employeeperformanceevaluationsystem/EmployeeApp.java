@@ -16,7 +16,6 @@ public class EmployeeApp extends Application {
             new Employee(1, "John Doe", "IT", ""),
             new Employee(2, "Jane Smith", "HR", ""),
             new Employee(3, "Tom Brown", "Finance", "")
-
     );
 
     @Override
@@ -45,19 +44,15 @@ public class EmployeeApp extends Application {
 
         Button addButton = new Button("Add");
         addButton.setOnAction(e -> addNewEmployee());
-//        Using Overloading Method for add function
         addNewEmployee(999, "Admin Adminov", "System Administrator");
         addNewEmployee(998, "Test Tester", "Tester QA");
 
         Button removeButton = new Button("Remove");
         removeButton.setOnAction(e -> removeSelectedEmployee());
-//        Using Overloading Method  for remove function
-        removeSelectedEmployee(998);  // Удаляет сотрудника с ID 2
-
+        removeSelectedEmployee(998);  // Удаляет сотрудника с ID 998
 
         Button editButton = new Button("Edit");
         editButton.setOnAction(e -> editSelectedEmployee());
-//        Using Overloading Method for edit function
         Employee selected = table.getSelectionModel().getSelectedItem();
         if (selected != null) {
             editSelectedEmployee(selected, "Edit Overload", "Overloading Department", "9.0");
@@ -65,7 +60,6 @@ public class EmployeeApp extends Application {
 
         Button evaluateButton = new Button("Evaluate");
         evaluateButton.setOnAction(e -> evaluateSelectedEmployee(primaryStage));
-
 
         buttonBox.getChildren().addAll(addButton, removeButton, editButton, evaluateButton);
 
@@ -101,10 +95,14 @@ public class EmployeeApp extends Application {
             }
         });
 
+        VBox layout = new VBox(10, nameLabel, nameField, deptLabel, deptField, saveButton);
+        layout.setPadding(new Insets(10));
+
+        addStage.setScene(new Scene(layout, 300, 200));
+        addStage.show();
     }
 
-
-    //    Overloading Method for add function
+    // Overloading Method for add function
     private void addNewEmployee(int id, String fullName, String department) {
         if (!fullName.isEmpty() && !department.isEmpty()) {
             employees.add(new Employee(id, fullName, department, "")); // Evaluation устанавливается пустым
@@ -114,9 +112,6 @@ public class EmployeeApp extends Application {
         }
     }
 
-
-
-
     private void removeSelectedEmployee() {
         Employee selected = table.getSelectionModel().getSelectedItem();
         if (selected != null) {
@@ -124,21 +119,20 @@ public class EmployeeApp extends Application {
         }
     }
 
-//    Overloading method for Remove Function
+    // Overloading method for Remove Function
     private void removeSelectedEmployee(int id) {
-    Employee toRemove = employees.stream()
-            .filter(employee -> employee.getId() == id)
-            .findFirst()
-            .orElse(null);
+        Employee toRemove = employees.stream()
+                .filter(employee -> employee.getId() == id)
+                .findFirst()
+                .orElse(null);
 
-    if (toRemove != null) {
-        employees.remove(toRemove);
-    } else {
-        Alert alert = new Alert(Alert.AlertType.WARNING, "Employee not found!");
-        alert.showAndWait();
+        if (toRemove != null) {
+            employees.remove(toRemove);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Employee not found!");
+            alert.showAndWait();
+        }
     }
-    }
-
 
     private void editSelectedEmployee() {
         Employee selected = table.getSelectionModel().getSelectedItem();
@@ -188,9 +182,15 @@ public class EmployeeApp extends Application {
                 alert.showAndWait();
             }
         });
-    }
-//    Overloading method for Edit function
 
+        VBox layout = new VBox(10, nameLabel, nameField, deptLabel, deptField, evaluationLabel, evaluationField, saveButton);
+        layout.setPadding(new Insets(10));
+
+        editStage.setScene(new Scene(layout, 300, 250));
+        editStage.show();
+    }
+
+    // Overloading method for Edit function
     private void editSelectedEmployee(Employee employee, String fullName, String department, String evaluation) {
         if (employee != null && !fullName.isEmpty() && !department.isEmpty() && !evaluation.isEmpty()) {
             employee.setFullName(fullName);
@@ -202,9 +202,6 @@ public class EmployeeApp extends Application {
             alert.showAndWait();
         }
     }
-
-
-
 
     private void evaluateSelectedEmployee(Stage primaryStage) {
         Employee selected = table.getSelectionModel().getSelectedItem();
@@ -245,37 +242,32 @@ public class EmployeeApp extends Application {
                 double softSkills = validateScore(softSkillsField.getText());
                 double attendance = validateScore(attendanceField.getText());
 
-                // Считаем среднюю оценку
-                double averageEvaluation = (hardSkills + softSkills + attendance) / 3;
-
-                // Устанавливаем итоговую оценку
-                selected.setEvaluation(String.format("%.2f", averageEvaluation));
-                table.refresh(); // Обновляем таблицу
+                double average = (hardSkills + softSkills + attendance) / 3;
+                selected.setEvaluation(String.format("%.2f", average));
+                table.refresh();
                 evaluateStage.close();
             } catch (NumberFormatException ex) {
-                Alert alert = new Alert(Alert.AlertType.WARNING, ex.getMessage());
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Scores must be between 0 and 10!");
                 alert.showAndWait();
             }
         });
+
+        VBox layout = new VBox(10, hardSkillsLabel, hardSkillsField, softSkillsLabel, softSkillsField, attendanceLabel, attendanceField, saveButton);
+        layout.setPadding(new Insets(10));
+
+        evaluateStage.setScene(new Scene(layout, 300, 250));
+        evaluateStage.show();
     }
 
-    // Метод для валидации оценки
-    private double validateScore(String input) throws NumberFormatException {
-        if (input == null || input.trim().isEmpty()) {
-            throw new NumberFormatException("All fields must be filled!");
+    private double validateScore(String score) throws NumberFormatException {
+        double value = Double.parseDouble(score);
+        if (value < 0 || value > 10) {
+            throw new NumberFormatException("Invalid score");
         }
-
-        double score = Double.parseDouble(input);
-        if (score < 0 || score > 10) {
-            throw new NumberFormatException("Scores must be between 0 and 10!");
-        }
-
-        return score;
+        return value;
     }
-
 
     public static void main(String[] args) {
         launch(args);
     }
 }
-
