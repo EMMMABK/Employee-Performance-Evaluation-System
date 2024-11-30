@@ -138,8 +138,8 @@ public class HelloController {
             return;
         }
 
-        editGridPane.setVisible(true);
-        evaluateGridPane.setVisible(false);
+        editGridPane.setVisible(false);
+        evaluateGridPane.setVisible(true);
 
         nameField.setText(selected.getFullName());
         deptField.setText(selected.getDepartment());
