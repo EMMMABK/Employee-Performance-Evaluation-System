@@ -3,11 +3,15 @@ package org.example.employeeperformanceevaluationsystem;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 
 public class EmployeeApp extends Application {
@@ -20,8 +24,21 @@ public class EmployeeApp extends Application {
     );
 
     @Override
-    public void start(Stage primaryStage){
-        primaryStage.setTitle("Employee Performance Evaluation");
+    public void start (Stage primaryStage) {
+        try {
+            // Correct path to FXML file relative to classpath
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/employeeperformanceevaluationsystem/hello-view.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Employee Performance Evaluation");
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Error loading FXML file!");
+            alert.showAndWait();
+        }
 
         // Таблица сотрудников
         TableColumn<Employee, Integer> idColumn = new TableColumn<>("ID");
