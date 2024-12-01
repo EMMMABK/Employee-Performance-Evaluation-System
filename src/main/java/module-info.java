@@ -1,8 +1,9 @@
-module org.example.employeeperformanceevaluationsystem {
+module org.example.employeeperformanceapp {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
 
 
-    opens org.example.employeeperformanceevaluationsystem to javafx.fxml;
-    exports org.example.employeeperformanceevaluationsystem;
+    opens org.example.employeeperformanceapp to javafx.fxml;
+    exports org.example.employeeperformanceapp;
 }
