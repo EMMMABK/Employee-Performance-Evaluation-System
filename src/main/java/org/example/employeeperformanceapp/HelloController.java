@@ -53,7 +53,10 @@ public class HelloController {
         List<Employee> employees = employeeDAO.getAllFromTrash();
         employeeTable.getItems().setAll(employees);
     }
-
+    public void clearFields(){
+        nameField.clear();
+        departmentField.clear();
+    }
     @FXML
     public void addEmployee() {
         String name = nameField.getText();
@@ -62,6 +65,10 @@ public class HelloController {
             Employee employee = new Employee(0, name, department, new java.util.Date());
             employeeDAO.addEmployee(employee);
             loadEmployeeData();
+            // Очищаем поля после добавления
+            clearFields();
+            // Создаем кнопку или другое событие, чтобы вызвать alert
+            showAlert("Информация", "Сотрудник успешно добавлен в список!!!");
         } else {
             showAlert("Input Error", "Please fill all fields.");
         }
@@ -73,6 +80,7 @@ public class HelloController {
         if (selectedEmployee != null) {
             employeeDAO.moveToTrash(selectedEmployee.getId());
             loadEmployeeData();
+            showAlert("Информация", "Сотрудник добавлен в корзину!!!");
         } else {
             showAlert("Selection Error", "Please select an employee to delete.");
         }
@@ -84,7 +92,8 @@ public class HelloController {
         if (selectedEmployee != null) {
             employeeDAO.restoreFromTrash((selectedEmployee.getId()));
             loadTrashData();
-            System.out.println("Сотрудник восстановлен");
+            System.out.println("Сотрудник восстановлен!!!");
+            showAlert("Информация", "Сотрудник восстановлен!!!");
         } else {
             showAlert("Selection Error", "Please select an employee to restore.");
         }
