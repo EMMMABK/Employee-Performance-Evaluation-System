@@ -127,23 +127,49 @@ public class HelloController {
             showAlert("Selection Error", "Please select an employee to edit.");
         }
     }
-
+    
     @FXML
     public void evaluateEmployee() {
         Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
         if (selectedEmployee != null) {
             try {
-                // Replace these with actual inputs (e.g., from TextFields or Dialogs)
-                double attendance = Double.parseDouble("Enter attendance score (0-100):");
-                double hardSkills = Double.parseDouble("Enter hard skills score (0-100):");
-                double softSkills = Double.parseDouble("Enter soft skills score (0-100):");
-
-                if (attendance < 0 || attendance > 100 || hardSkills < 0 || hardSkills > 100 || softSkills < 0 || softSkills > 100) {
-                    showAlert("Input Error", "Scores must be between 0 and 100.");
+                // Get values from the TextFields
+                double attendance = Double.parseDouble(attendanceField.getText());
+                double hardSkills = Double.parseDouble(hardSkillsField.getText());
+                double softSkills = Double.parseDouble(softSkillsField.getText());
+    
+                // Validate the scores
+                if (attendance < 0 || attendance > 10 || hardSkills < 0 || hardSkills > 10 || softSkills < 0 || softSkills > 10) {
+                    showAlert("Input Error", "Scores must be between 0 and 10.");
                     return;
                 }
-
+    
+                // Calculate and show the average score
                 double averageScore = (attendance + hardSkills + softSkills) / 3;
+                
+                // Update the database with the new scores
+                String updateSQL = "UPDATE employees SET attendance = ?, hard_skills = ?, soft_skills = ? WHERE id = ?";
+                try (PreparedStatement pstmt = connection.prepareStatement(updateSQL)) {
+                    pstmt.setDouble(1, attendance);
+                    pstmt.setDouble(2, hardSkills);
+                    pstmt.setDouble(3, softSkills);
+                    pstmt.setInt(4, selectedEmployee.getId());
+                    pstmt.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    showAlert("Database Error", "Error updating employee grades.");
+                    return;
+                }
+    
+                // Update the employee in the table (model)
+                selectedEmployee.setAttendance(attendance);
+                selectedEmployee.setHardSkills(hardSkills);
+                selectedEmployee.setSoftSkills(softSkills);
+    
+                // Update the table view to reflect the new data
+                employeeTable.refresh();
+    
+                // Show the average score
                 showAlert("Evaluation Result", "The average score is: " + averageScore);
             } catch (NumberFormatException e) {
                 showAlert("Input Error", "Please enter valid numerical values.");
@@ -152,6 +178,7 @@ public class HelloController {
             showAlert("Selection Error", "Please select an employee to evaluate.");
         }
     }
+
 
     @FXML
     public void deleteEmployee() {
