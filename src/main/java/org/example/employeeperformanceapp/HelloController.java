@@ -68,19 +68,19 @@ public class HelloController {
             // Очищаем поля после добавления
             clearFields();
             // Создаем кнопку или другое событие, чтобы вызвать alert
-            showAlert("Информация", "Сотрудник успешно добавлен в список!!!");
+            showAlert("Information", "The employee has been added to the list.");
         } else {
             showAlert("Input Error", "Please fill all fields.");
         }
     }
 
     @FXML
-    public void deleteEmployee() {
+    public void moveToTrash() {
         Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
         if (selectedEmployee != null) {
             employeeDAO.moveToTrash(selectedEmployee.getId());
             loadEmployeeData();
-            showAlert("Информация", "Сотрудник добавлен в корзину!!!");
+            showAlert("Information", "The employee has been added to your trash.");
         } else {
             showAlert("Selection Error", "Please select an employee to delete.");
         }
@@ -92,8 +92,7 @@ public class HelloController {
         if (selectedEmployee != null) {
             employeeDAO.restoreFromTrash((selectedEmployee.getId()));
             loadTrashData();
-            System.out.println("Сотрудник восстановлен!!!");
-            showAlert("Информация", "Сотрудник восстановлен!!!");
+            showAlert("Information", "The employee has been restored!");
         } else {
             showAlert("Selection Error", "Please select an employee to restore.");
         }
@@ -106,4 +105,64 @@ public class HelloController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    @FXML
+    public void editEmployee() {
+        Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
+        if (selectedEmployee != null) {
+            String name = nameField.getText();
+            String department = departmentField.getText();
+
+            if (!name.isEmpty() && !department.isEmpty()) {
+                selectedEmployee.setName(name);
+                selectedEmployee.setDepartment(department);
+                employeeDAO.updateEmployee(selectedEmployee);
+                loadEmployeeData();
+                clearFields();
+                showAlert("Information", "Employee details have been updated.");
+            } else {
+                showAlert("Input Error", "Please fill all fields.");
+            }
+        } else {
+            showAlert("Selection Error", "Please select an employee to edit.");
+        }
+    }
+
+    @FXML
+    public void evaluateEmployee() {
+        Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
+        if (selectedEmployee != null) {
+            try {
+                // Replace these with actual inputs (e.g., from TextFields or Dialogs)
+                double attendance = Double.parseDouble("Enter attendance score (0-100):");
+                double hardSkills = Double.parseDouble("Enter hard skills score (0-100):");
+                double softSkills = Double.parseDouble("Enter soft skills score (0-100):");
+
+                if (attendance < 0 || attendance > 100 || hardSkills < 0 || hardSkills > 100 || softSkills < 0 || softSkills > 100) {
+                    showAlert("Input Error", "Scores must be between 0 and 100.");
+                    return;
+                }
+
+                double averageScore = (attendance + hardSkills + softSkills) / 3;
+                showAlert("Evaluation Result", "The average score is: " + averageScore);
+            } catch (NumberFormatException e) {
+                showAlert("Input Error", "Please enter valid numerical values.");
+            }
+        } else {
+            showAlert("Selection Error", "Please select an employee to evaluate.");
+        }
+    }
+
+    @FXML
+    public void deleteEmployee() {
+        Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
+        if (selectedEmployee != null) {
+            employeeDAO.deleteEmployee(selectedEmployee.getId());
+            loadEmployeeData();
+            showAlert("Information", "The employee has been permanently deleted.");
+        } else {
+            showAlert("Selection Error", "Please select an employee to delete.");
+        }
+    }
+
 }

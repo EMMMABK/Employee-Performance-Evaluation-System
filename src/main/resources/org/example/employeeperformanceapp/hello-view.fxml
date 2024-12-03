@@ -5,55 +5,79 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="734.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.employeeperformanceapp.HelloController">
-   <children>
-      <GridPane alignment="center" hgap="20" layoutX="99.0" layoutY="14.0" style="-fx-background-color: #f4f4f9;" vgap="20" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
-         <columnConstraints>
-            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
-            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
-         </columnConstraints>
-         <children>
-            <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Employee Management" GridPane.columnSpan="2" GridPane.rowIndex="0" />
-            <TableView fx:id="employeeTable" GridPane.columnSpan="2" GridPane.rowIndex="1">
-               <columns>
-                  <TableColumn fx:id="nameColumn" prefWidth="200.0" text="Name" />
-                  <TableColumn fx:id="departmentColumn" prefWidth="200.0" text="Department" />
-               </columns>
-            </TableView>
-            <VBox alignment="CENTER" spacing="10" GridPane.columnSpan="2" GridPane.rowIndex="2">
-               <children>
-                  <TextField fx:id="nameField" promptText="Employee Name" style="-fx-padding: 10; -fx-background-color: #ffffff; -fx-border-radius: 5px;" />
-                  <TextField fx:id="departmentField" promptText="Department" style="-fx-padding: 10; -fx-background-color: #ffffff; -fx-border-radius: 5px;" />
-                  <HBox alignment="CENTER" spacing="15">
-                     <children>
-                        <Button fx:id="addEmployeeButton" onAction="#addEmployee" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10;" text="Add Employee" />
-                        <Button fx:id="deleteEmployeeButton" onAction="#deleteEmployee" style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10;" text="Delete Employee" />
-                     </children>
-                  </HBox>
-               </children>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<TabPane prefHeight="734.0" prefWidth="600.0" style="-fx-background-color: #333d34;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.employeeperformanceapp.HelloController">
+   <tabs>
+      <!-- Главный экран -->
+      <Tab text="Home">
+         <content>
+            <VBox fx:id="mainScreen" alignment="CENTER" spacing="20" style="-fx-background-color: #333d34;">
+               <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Welcome to Employee Management" textFill="WHITE" />
+               <Button onAction="#loadEmployeeData" prefHeight="27.0" prefWidth="212.0" style="-fx-background-color: #4d0909; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10; -fx-border-radius: 50%; -fx-background-radius: 15;" text="Employee" />
+               <Button onAction="#loadTrashData" prefHeight="41.0" prefWidth="122.0" style="-fx-background-color: #4d0909; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10; -fx-background-radius: 15;" text="Trash" />
             </VBox>
-            <HBox alignment="CENTER" spacing="15" GridPane.columnSpan="2" GridPane.rowIndex="3">
-               <children>
-                  <Button onAction="#loadEmployeeData" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10;" text="Load Employee Data" />
-                  <Button fx:id="restoreEmployeeButton" onAction="#restoreEmployee" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10;" text="Restore Employee" />
-                  <Button onAction="#loadTrashData" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10;" text="Load Trash" />
-               </children>
-            </HBox>
-         </children>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
-      </GridPane>
-   </children>
-</AnchorPane>
+         </content>
+      </Tab>
+
+      <!-- Экран с сотрудниками -->
+      <Tab text="Employees">
+         <content>
+            <VBox fx:id="employeeScreen" alignment="CENTER" spacing="20" style="-fx-background-color: #f4f4f9;">
+               <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Employee Management" />
+
+               <!-- Поля ввода данных -->
+               <VBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 20;">
+                  <HBox spacing="10">
+                     <Label text="FullName:" style="-fx-font-size: 14px;" />
+                     <TextField fx:id="fullNameField" promptText="Enter full name" />
+                  </HBox>
+                  <HBox spacing="10">
+                     <Label text="Department:" style="-fx-font-size: 14px;" />
+                     <TextField fx:id="departmentField" promptText="Enter department" />
+                  </HBox>
+                  <Label text="Evaluation:" style="-fx-font-size: 18px;" />
+                  <HBox spacing="10">
+                     <Label text="Attendance:" style="-fx-font-size: 14px;" />
+                     <TextField fx:id="attendanceField" promptText="Enter attendance score" />
+                  </HBox>
+                  <HBox spacing="10">
+                     <Label text="Soft Skills:" style="-fx-font-size: 14px;" />
+                     <TextField fx:id="softSkillsField" promptText="Enter soft skills score" />
+                  </HBox>
+                  <HBox spacing="10">
+                     <Label text="Hard Skills:" style="-fx-font-size: 14px;" />
+                     <TextField fx:id="hardSkillsField" promptText="Enter hard skills score" />
+                  </HBox>
+               </VBox>
+
+               <!-- Кнопки -->
+               <HBox alignment="CENTER" spacing="20">
+                  <Button onAction="#addEmployee" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10;" text="Save Employee" />
+                  <Button onAction="#clearFields" style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10;" text="Clear Fields" />
+               </HBox>
+            </VBox>
+         </content>
+      </Tab>
+
+      <!-- Экран с корзиной -->
+      <Tab text="Trash">
+         <content>
+            <VBox fx:id="trashScreen" alignment="CENTER" spacing="20" style="-fx-background-color: #f4f4f9;">
+               <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Trash Management" />
+               <TableView fx:id="trashTable" prefWidth="550.0">
+                  <columns>
+                     <TableColumn fx:id="trashNameColumn" text="Name" />
+                     <TableColumn fx:id="trashDepartmentColumn" text="Department" />
+                  </columns>
+               </TableView>
+               <HBox alignment="CENTER" spacing="20">
+                  <Button onAction="#restoreEmployee" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10;" text="Restore Employee" />
+               </HBox>
+            </VBox>
+         </content>
+      </Tab>
+   </tabs>
+</TabPane>
