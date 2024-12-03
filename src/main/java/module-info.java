@@ -2,6 +2,7 @@ module org.example.employeeperformanceapp {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires java.desktop;
 
 
     opens org.example.employeeperformanceapp to javafx.fxml;

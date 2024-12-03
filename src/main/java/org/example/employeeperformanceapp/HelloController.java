@@ -6,8 +6,12 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+
+import javax.swing.*;
+import java.awt.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -26,11 +30,18 @@ public class HelloController {
     @FXML
 
     private EmployeeDAO employeeDAO;
+    @FXML
+    private TextField attendanceField;
+    @FXML
+    private TextField hardSkillsField;
+    @FXML
+    private TextField softSkillsField;
+    private Connection connection;
 
     public void initialize() {
         // Подключаемся к базе данных
         try {
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "190306");
+            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "123456");
             employeeDAO = new EmployeeDAO(connection);
 
             // Настроить таблицу
@@ -127,58 +138,61 @@ public class HelloController {
             showAlert("Selection Error", "Please select an employee to edit.");
         }
     }
-    
+
     @FXML
-    public void evaluateEmployee() {
+    public void evaluationEmployee() {
         Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
+
         if (selectedEmployee != null) {
             try {
-                // Get values from the TextFields
-                double attendance = Double.parseDouble(attendanceField.getText());
-                double hardSkills = Double.parseDouble(hardSkillsField.getText());
-                double softSkills = Double.parseDouble(softSkillsField.getText());
-    
-                // Validate the scores
-                if (attendance < 0 || attendance > 10 || hardSkills < 0 || hardSkills > 10 || softSkills < 0 || softSkills > 10) {
-                    showAlert("Input Error", "Scores must be between 0 and 10.");
-                    return;
+                // Получаем значения из полей ввода
+                int attendance = Integer.parseInt(attendanceField.getText());
+                int hardSkills = Integer.parseInt(hardSkillsField.getText());
+                int softSkills = Integer.parseInt(softSkillsField.getText());
+
+                // Проверяем, чтобы все оценки были в пределах 0-10
+                if (attendance >= 0 && attendance <= 10 && hardSkills >= 0 && hardSkills <= 10 && softSkills >= 0 && softSkills <= 10) {
+                    // Расчет среднего балла
+                    double averageScore = (attendance + hardSkills + softSkills) / 3.0;
+
+                    // Обновляем данные сотрудника в базе данных
+                    updateGrade(selectedEmployee.getId(), attendance, hardSkills, softSkills, averageScore);
+
+                    // Обновляем таблицу
+                    loadEmployeeData();
+                    showAlert("Success", "The evaluation has been successfully updated.");
+                    clearFields();
+                } else {
+                    showAlert("Input Error", "Please enter values between 0 and 10.");
                 }
-    
-                // Calculate and show the average score
-                double averageScore = (attendance + hardSkills + softSkills) / 3;
-                
-                // Update the database with the new scores
-                String updateSQL = "UPDATE employees SET attendance = ?, hard_skills = ?, soft_skills = ? WHERE id = ?";
-                try (PreparedStatement pstmt = connection.prepareStatement(updateSQL)) {
-                    pstmt.setDouble(1, attendance);
-                    pstmt.setDouble(2, hardSkills);
-                    pstmt.setDouble(3, softSkills);
-                    pstmt.setInt(4, selectedEmployee.getId());
-                    pstmt.executeUpdate();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    showAlert("Database Error", "Error updating employee grades.");
-                    return;
-                }
-    
-                // Update the employee in the table (model)
-                selectedEmployee.setAttendance(attendance);
-                selectedEmployee.setHardSkills(hardSkills);
-                selectedEmployee.setSoftSkills(softSkills);
-    
-                // Update the table view to reflect the new data
-                employeeTable.refresh();
-    
-                // Show the average score
-                showAlert("Evaluation Result", "The average score is: " + averageScore);
             } catch (NumberFormatException e) {
-                showAlert("Input Error", "Please enter valid numerical values.");
+                showAlert("Input Error", "Please enter valid numbers for all fields.");
             }
         } else {
             showAlert("Selection Error", "Please select an employee to evaluate.");
         }
     }
 
+    private void updateGrade(int employeeId, int attendance, int hardSkills, int softSkills, double averageScore) {
+        if (connection == null) {
+            showAlert("Database Error", "Connection is not established.");
+            return;
+        }
+
+        String query = "UPDATE grades SET attendance = ?, hard_skills = ?, soft_skills = ?, average_score = ? WHERE employee_id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, attendance);
+            stmt.setInt(2, hardSkills);
+            stmt.setInt(3, softSkills);
+            stmt.setDouble(4, averageScore);
+            stmt.setInt(5, employeeId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Database Error", "Could not update the performance evaluation.");
+        }
+    }
 
     @FXML
     public void deleteEmployee() {

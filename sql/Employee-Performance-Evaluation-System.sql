@@ -14,14 +14,17 @@ CREATE TABLE trash (
     deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-ALTER TABLE trash DROP CONSTRAINT trash_employee_id_fkey;
-CREATE TABLE performance_reviews (
-    id SERIAL PRIMARY KEY,  -- айди самой таблицы
-    employee_id INT NOT NULL REFERENCES employees(id) ON DELETE CASCADE,  -- айди сотрудника (с удалением записи из performance_reviews при удалении сотрудника)
-    review_date DATE NOT NULL,  -- дата оценки
-    performance_score DOUBLE PRECISION CHECK (performance_score BETWEEN 1 AND 10),  -- средний балл от 1 до 10
+CREATE TABLE grades (
+    id SERIAL PRIMARY KEY,  -- айди записи
+    employee_id INT NOT NULL REFERENCES employees(id) ON DELETE CASCADE,  -- айди сотрудника (с удалением записи при удалении сотрудника)
+    attendance INT CHECK (attendance >= 0 AND attendance <= 10),  -- оценка по attendance (от 0 до 10)
+    hard_skills INT CHECK (hard_skills >= 0 AND hard_skills <= 10),  -- оценка по hard skills (от 0 до 10)
+    soft_skills INT CHECK (soft_skills >= 0 AND soft_skills <= 10),  -- оценка по soft skills (от 0 до 10)
+    average_score DOUBLE PRECISION,  -- среднее арифметическое по трем оценкам
     CONSTRAINT fk_employee FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE  -- внешний ключ с каскадным удалением
 );
+
+select * from employees;
 
 
 

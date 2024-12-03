@@ -13,11 +13,14 @@ public class PerformanceReviewDAO implements PerformanceReviewDAOInterface {
 
     @Override
     public void addPerformanceReview(PerformanceReview review) {
-        String query = "INSERT INTO performance_reviews (employee_id, review_date, performance_score) VALUES (?, ?, ?)";
+        String query = "INSERT INTO performance_reviews (employee_id, review_date, performance_score, attendance, hard_skills, soft_skills) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, review.getEmployeeId());
             statement.setDate(2, new java.sql.Date(review.getReviewDate().getTime()));
             statement.setInt(3, review.getPerformanceScore());
+            statement.setDouble(4, review.getAttendance());
+            statement.setDouble(5, review.getHardSkills());
+            statement.setDouble(6, review.getSoftSkills());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -36,7 +39,10 @@ public class PerformanceReviewDAO implements PerformanceReviewDAOInterface {
                         resultSet.getInt("id"),
                         resultSet.getInt("employee_id"),
                         resultSet.getDate("review_date"),
-                        resultSet.getInt("performance_score")
+                        resultSet.getInt("performance_score"),
+                        resultSet.getDouble("attendance"),
+                        resultSet.getDouble("hard_skills"),
+                        resultSet.getDouble("soft_skills")
                 );
                 reviews.add(review);
             }

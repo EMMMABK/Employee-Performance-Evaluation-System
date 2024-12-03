@@ -7,18 +7,47 @@ public class PerformanceReview {
     private int employeeId;
     private Date reviewDate;
     private int performanceScore;
+    private double attendance;  // Add attendance field
+    private double hardSkills;  // Add hard skills field
+    private double softSkills;  // Add soft skills field
 
-    // Конструкторы, геттеры и сеттеры
-    public PerformanceReview(int id, int employeeId, Date reviewDate, int performanceScore) {
+    // Constructor with new fields
+    public PerformanceReview(int id, int employeeId, Date reviewDate, int performanceScore, double attendance, double hardSkills, double softSkills) {
         this.id = id;
         this.employeeId = employeeId;
         this.reviewDate = reviewDate;
         this.performanceScore = performanceScore;
+        this.attendance = attendance;
+        this.hardSkills = hardSkills;
+        this.softSkills = softSkills;
     }
 
-    // геттеры и сеттеры
+    // Getters and Setters for the new fields
+    public double getAttendance() {
+        return attendance;
+    }
 
+    public void setAttendance(double attendance) {
+        this.attendance = attendance;
+    }
 
+    public double getHardSkills() {
+        return hardSkills;
+    }
+
+    public void setHardSkills(double hardSkills) {
+        this.hardSkills = hardSkills;
+    }
+
+    public double getSoftSkills() {
+        return softSkills;
+    }
+
+    public void setSoftSkills(double softSkills) {
+        this.softSkills = softSkills;
+    }
+
+    // Existing getters and setters
     public int getPerformanceScore() {
         return performanceScore;
     }
@@ -56,6 +85,9 @@ public class PerformanceReview {
         return "Review ID: " + id +
                 ", Employee ID: " + employeeId +
                 ", Date: " + reviewDate +
-                ", Score: " + performanceScore;
+                ", Score: " + performanceScore +
+                ", Attendance: " + attendance +
+                ", Hard Skills: " + hardSkills +
+                ", Soft Skills: " + softSkills;
     }
 }

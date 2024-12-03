@@ -50,27 +50,60 @@ public class EmployeeDAO implements EmployeeDAOInterface {
     }
     // Новый метод для перемещения сотрудника в таблицу trash
     public void moveToTrash(int id) {
-        String selectSql = "SELECT * FROM employees WHERE id = ?";
-        String insertSql = "INSERT INTO trash (employee_id, name, department, hire_date) SELECT id, name, department, hire_date FROM employees WHERE id = ?";
+        String insertSql = "INSERT INTO trash (employee_id, name, department, hire_date) " +
+                "SELECT id, name, department, hire_date FROM employees WHERE id = ?";
         String deleteSql = "DELETE FROM employees WHERE id = ?";
 
-        try (PreparedStatement selectStmt = connection.prepareStatement(selectSql);
-             PreparedStatement insertStmt = connection.prepareStatement(insertSql);
-             PreparedStatement deleteStmt = connection.prepareStatement(deleteSql)) {
+        try {
+            // Start a transaction
+            connection.setAutoCommit(false);
 
-            // Перемещаем данные из employees в trash
-            selectStmt.setInt(1, id);
-            ResultSet rs = selectStmt.executeQuery();
-            if (rs.next()) {
+            try (PreparedStatement insertStmt = connection.prepareStatement(insertSql);
+                 PreparedStatement deleteStmt = connection.prepareStatement(deleteSql)) {
+
+                // Insert employee into trash
                 insertStmt.setInt(1, id);
-                insertStmt.executeUpdate();
-                deleteStmt.setInt(1, id);
-                deleteStmt.executeUpdate();
+                int insertResult = insertStmt.executeUpdate();
+
+                // If insert was successful, delete from employees table
+                if (insertResult > 0) {
+                    deleteStmt.setInt(1, id);
+                    int deleteResult = deleteStmt.executeUpdate();
+
+                    if (deleteResult > 0) {
+                        // Commit transaction if both operations are successful
+                        connection.commit();
+                        System.out.println("Employee moved to trash successfully.");
+                    } else {
+                        // Rollback if delete failed
+                        connection.rollback();
+                        System.out.println("Error: Failed to delete employee after inserting into trash.");
+                    }
+                } else {
+                    // Rollback if insert failed
+                    connection.rollback();
+                    System.out.println("Error: Failed to insert employee into trash.");
+                }
+            } catch (SQLException e) {
+                // Rollback in case of any exception
+                connection.rollback();
+                e.printStackTrace();
+                System.out.println("Error occurred while moving employee to trash: " + e.getMessage());
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error with transaction: " + e.getMessage());
+        } finally {
+            try {
+                // Restore default auto-commit behavior
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
+
 
     public void restoreFromTrash(int id) {
         String selectSql = "SELECT * FROM trash WHERE id = ?";
