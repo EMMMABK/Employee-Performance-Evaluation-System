@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [Description](#description)
 2. [Project Requirements List](#project-requirements-list)
-3. Team Members List
+3. [Team Members List](#team-member-list)
 4. Roles of Group Members
 5. Screenshots
 6. UML Class Diagram
