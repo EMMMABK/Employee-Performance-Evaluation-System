@@ -36,6 +36,7 @@ The following key functionalities are essential for the completion of the projec
 - **Adil Bikiev**: Managed the overall project, implemented the backend logic, and integrated database functions.
 - **Yryskeldi Bakhapov**: Designed the user interface using JavaFX and SceneBuilder. Handled front-end integration.
 - **Altynbek Zhonguchkaev**: Managed the database schema, created the `EmployeeDAO` class, and handled database connections and queries.
+![Uploading Trash3.png…]()
 
 ## Screenshots
 Below are key screenshots showcasing the application:
