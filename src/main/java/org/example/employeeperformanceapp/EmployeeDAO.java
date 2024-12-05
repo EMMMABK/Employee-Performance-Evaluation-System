@@ -38,16 +38,25 @@ public class EmployeeDAO implements EmployeeDAOInterface {
         }
     }
 
+
     @Override
     public void deleteEmployee(int employeeId) {
-        String query = "DELETE FROM employees WHERE id = ?";
+        String query = "DELETE FROM trash WHERE employee_id = ?";
+        String delete_grade_query = "DELETE FROM GRADES WHERE employee_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, employeeId);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        try (PreparedStatement statement = connection.prepareStatement(delete_grade_query)) {
+            statement.setInt(1, employeeId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
     // Новый метод для перемещения сотрудника в таблицу trash
     public void moveToTrash(int id) {
         String selectSql = "SELECT * FROM employees WHERE id = ?";
@@ -232,4 +241,5 @@ public class EmployeeDAO implements EmployeeDAOInterface {
             e.printStackTrace();
         }
     }
+
 }
