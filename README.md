@@ -64,7 +64,7 @@ The commit history has been tracked and is available in the GitHub repository. C
 
 ## OOP Concepts and questions
 
-# 1. **Encapsulation**
+### 1. **Encapsulation**
 **Explanation:**  
 Encapsulation is used to protect data by making fields private and providing public getter and setter methods to access and modify them.
 
@@ -95,7 +95,7 @@ public class Employee {
 }
 ```
 
-# 2. **Access Modifiers**
+### 2. **Access Modifiers**
 **Explanation:**  
 Access modifiers control the visibility of classes, methods, and variables. `private` hides the fields from outside, while `public` makes them accessible.
 
@@ -119,7 +119,7 @@ public class EmployeeDAO {
 }
 ```
 
-# 3. **Constructor**
+### 3. **Constructor**
 **Explanation:**  
 Constructors are used to initialize objects with a valid state at the time of creation.
 
@@ -133,7 +133,7 @@ public Employee(int id, String name, String department, Date hireDate) {
 }
 ```
 
-# 4. **Method Overloading**
+### 4. **Method Overloading**
 **Explanation:**  
 Method overloading allows multiple methods with the same name but different parameters, enabling the handling of different input types.
 
@@ -148,7 +148,7 @@ public void addGrade(EmployeeGrade employeeGrade) {
 }
 ```
 
-# 5. **Exception Handling**
+### 5. **Exception Handling**
 **Explanation:**  
 Exception handling is used to manage errors, ensuring the application does not crash due to unexpected issues.
 
@@ -162,7 +162,7 @@ try {
 }
 ```
 
-# 6. **Inheritance**
+### 6. **Inheritance**
 **Explanation:**  
 Inheritance allows a class (e.g., `EmployeeGrade`) to reuse properties and methods from a parent class (`Employee`).
 
@@ -178,7 +178,7 @@ public class EmployeeGrade extends Employee {
 }
 ```
 
-# 7. **Method Overriding**
+### 7. **Method Overriding**
 **Explanation:**  
 Method overriding allows subclasses to provide specific implementations of methods defined in a superclass.
 
@@ -190,7 +190,7 @@ public String getName() {
 }
 ```
 
-# 8. **Interface**
+### 8. **Interface**
 **Explanation:**  
 Interfaces define common behavior for classes to implement, ensuring consistency across different implementations.
 
@@ -214,7 +214,7 @@ public class EmployeeDAO implements EmployeeDAOInterface {
 }
 ```
 
-# 9. **Polymorphism**
+### 9. **Polymorphism**
 **Explanation:**  
 Polymorphism allows the handling of objects of different types in a uniform way, typically through a common interface or superclass.
 
@@ -230,7 +230,7 @@ for (Employee e : employees) {
 }
 ```
 
-# 10. **Dependency Injection**
+### 10. **Dependency Injection**
 **Explanation:**  
 Dependency Injection reduces tight coupling by passing dependencies (e.g., `EmployeeDAO`) to a class rather than creating them inside.
 
