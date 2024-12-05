@@ -123,4 +123,64 @@ public class HelloController {
         List<EmployeeGrade> grades = employeeDAO.getAllGrades();
         gradeTable.getItems().setAll(grades);
     }
+
+    @FXML
+    public void editEmployee() {
+        Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
+        if (selectedEmployee != null) {
+            String name = nameField.getText();
+            String department = departmentField.getText();
+            if (!name.isEmpty() && !department.isEmpty()) {
+                selectedEmployee.setName(name);
+                selectedEmployee.setDepartment(department);
+                employeeDAO.updateEmployee(selectedEmployee);
+                loadEmployeeData();
+                loadGradeData();
+                clearFields();
+                showAlert("Information", "Employee details have been updated.");
+            } else {
+                showAlert("Input Error", "Please fill all fields.");
+            }
+        } else {
+            showAlert("Selection Error", "Please select an employee to edit.");
+        }
+    }
+
+    @FXML
+    public void evaluateEmployee() {
+//        Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
+        Employee selectedEmployee = gradeTable.getSelectionModel().getSelectedItem();
+        if (selectedEmployee != null) {
+            try {
+                double attendance = Double.parseDouble(this.attendance.getText());
+                double hardSkill = Double.parseDouble(this.hardskill.getText());
+                double softSkill = Double.parseDouble(this.sofskill.getText());
+
+                if (attendance < 0 || attendance > 10 || hardSkill < 0 || hardSkill > 10 || softSkill < 0 || softSkill > 10) {
+                    showAlert("Input Error", "Scores must be between 0 and 10.");
+                    return;
+                }
+
+                double averageScore = (attendance + hardSkill + softSkill) / 3;
+
+                // Проверка, существует ли оценка для данного сотрудника
+                if (!employeeDAO.gradeExists(selectedEmployee.getId())) {
+                    // Если оценки нет, добавляем ее
+                    employeeDAO.addGrade(selectedEmployee.getId(), averageScore);
+                } else {
+                    // Если оценка уже есть, обновляем ее
+                    employeeDAO.updateGrade(selectedEmployee.getId(), averageScore);
+                }
+
+                loadGradeData();
+                clearFields();
+                showAlert("Evaluation Result", "The employee's grade is: " + averageScore);
+            } catch (NumberFormatException e) {
+                showAlert("Input Error", "Please enter valid numerical values.");
+            }
+        } else {
+            showAlert("Selection Error", "Please select an employee to evaluate.");
+        }
+    }
+
 }
