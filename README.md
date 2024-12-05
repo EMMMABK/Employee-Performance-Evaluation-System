@@ -4,13 +4,12 @@
 1. [Description](#description)
 2. [Project Requirements List](#project-requirements-list)
 3. [Team Members List](#team-member-list)
-4. Roles of Group Members
-5. Screenshots
-6. UML Class Diagram
-7. Weekly Meeting Documentation
-8. Commit History
-9. OOP Concepts and questions
-
+4. [Roles of Group Members](#roles-of-group-members)
+5. [Screenshots](#screenshots)
+6. [UML Class Diagram](#uml-class-diagram)
+7. [Weekly Meeting Documentation](#weekly-meeting-documentation)
+8. [Commit History](#commit-history)
+9. [OOP Concepts and questions](#oop-concepts-and-questions-)
 ## Description
 The Employee Performance Management System is designed to help companies efficiently manage and evaluate their employees. It enables adding, editing, deleting, and moving employee records to a trash folder. Employees' performance is also tracked through an evaluation system that considers attendance, soft skills, and hard skills, allowing the HR team to manage and assess employees' overall performance. The system also includes functionalities to manage and restore deleted employee records.
 
@@ -28,9 +27,9 @@ The following key functionalities are essential for the completion of the projec
 10. **Clear Input Fields**: Automatically clear the input fields after adding or editing employee records.
 
 ## Team Members List
-- **Yryskeldi Bakhapov** - Project Manager, Backend Developer
-- **Altynbek Zhonguchkaev** - Frontend Developer, UI/UX Designer
-- **Adil Bikiev** - Database Administrator, Tester
+- **Adil Bikiev** - Project Manager, Database Administrator, Backend Developer
+- **Yryskeldi Bakhapov** - Tester, UI/UX Designer, Content Creator
+- **Altynbek Zhonguchkaev** - Database Administrator, Backend Developer, Frontend Developer
 
 ## Roles of Group Members
 - **John Doe**: Managed the overall project, implemented the backend logic, and integrated database functions.
@@ -61,6 +60,8 @@ Weekly meeting summaries and action items can be found in the [Google Docs link]
 
 ## Commit History
 The commit history has been tracked and is available in the GitHub repository. Commits started more than 3 weeks before the submission date to ensure proper version control and collaboration.
+
+## OOP Concepts and questions 
 
 ## GitHub Repository
 The project source code and documentation can be accessed on GitHub at [GitHub Repository Link](link-to-your-repository).
