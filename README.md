@@ -40,8 +40,11 @@ The following key functionalities are essential for the completion of the projec
 ## Screenshots
 Below are key screenshots showcasing the application:
 - **Home**: ![Home](/assets/home/Home.png)
-- **Trash Table**: ![Trash Table](link-to-screenshot2.jpg)
-- **Evaluation Screen**: ![Evaluation Screen](link-to-screenshot3.jpg)
+- **Employee**: ![Employee](/assets/employees/Employee1.png) ![Employee](/assets/employees/Employee2.png) ![Employee](/assets/employees/Employee3.png) ![Employee](/assets/employees/Employee4.png)
+- **Edit**: ![Edit](/assets/edit/edit1.png) ![Edit](/assets/edit/edit2.png) ![Edit](/assets/edit/edit3.png)
+- **Grades**: ![Grades](/assets/grades/Grades1.png) ![Grades](/assets/grades/Grades2.png) ![Grades](/assets/grades/Grades3.png) ![Grades](/assets/grades/Grades4.png)
+- **Trash**: ![Trash](/assets/trash/Trash1.png) ![Trash](/assets/trash/Trash2.png) ![Trash](/assets/trash/Trash3.png)
+- **Database**: ![Database](/assets/db/psql1.png) ![Database](/assets/db/psql2.png) ![Database](/assets/db/psql3.png) ![Database](/assets/db/psql4.png) ![Database](/assets/db/psql5.png)
 
 ## UML Class Diagram
 The UML class diagram provides a visual representation of the system’s structure, detailing the classes, attributes, methods, and their relationships.
