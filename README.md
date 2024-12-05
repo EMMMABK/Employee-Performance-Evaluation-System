@@ -39,7 +39,7 @@ The following key functionalities are essential for the completion of the projec
 
 ## Screenshots
 Below are key screenshots showcasing the application:
-- **Home**: ![Home](/assets/home/home.png)
+- **Home**: ![Home](/assets/home/Home.png)
 - **Trash Table**: ![Trash Table](link-to-screenshot2.jpg)
 - **Evaluation Screen**: ![Evaluation Screen](link-to-screenshot3.jpg)
 
