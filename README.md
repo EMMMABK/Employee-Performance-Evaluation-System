@@ -28,10 +28,9 @@ The following key functionalities are essential for the completion of the projec
 10. **Clear Input Fields**: Automatically clear the input fields after adding or editing employee records.
 
 ## Team Members List
-- **John Doe** - Project Manager, Backend Developer
+- **Yryskeldi** - Project Manager, Backend Developer
 - **Jane Smith** - Frontend Developer, UI/UX Designer
 - **Alice Johnson** - Database Administrator, Tester
-- **Bob Brown** - HR Consultant, Documentation and GitHub Management
 
 ## Roles of Group Members
 - **John Doe**: Managed the overall project, implemented the backend logic, and integrated database functions.
