@@ -56,7 +56,7 @@ The UML class diagram provides a visual representation of the system’s structu
 - **HelloController**: JavaFX controller that handles UI interactions, including employee addition, modification, deletion, and evaluation.
 
 ## Weekly Meeting Documentation
-Weekly meeting summaries and action items can be found in the [Google Docs link](link-to-google-docs).
+Weekly meeting summaries and action items can be found in the [Google Docs link](https://docs.google.com/document/d/1E4ld5ssIVgZshUG-lhLDjgzNAuSk3Rkg3Ik92CVwCgI/edit?usp=sharing).
 
 ## Commit History
 The commit history has been tracked and is available in the GitHub repository. Commits started more than 3 weeks before the submission date to ensure proper version control and collaboration.
