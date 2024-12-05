@@ -1,5 +1,6 @@
 package org.example.employeeperformanceapp;
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -15,9 +16,17 @@ public class HelloController {
     @FXML
     private TableView<Employee> employeeTable;
     @FXML
+    private TableView<Employee> trashTable;
+    @FXML
+    private TableView<Employee> gradeTable;
+    @FXML
     private TableColumn<Employee, String> nameColumn;
     @FXML
+    private TableColumn<Employee, String> nameColumnTrash;
+    @FXML
     private TableColumn<Employee, String> departmentColumn;
+    @FXML
+    private TableColumn<Employee, String> departmentColumnTrash;
     @FXML
     private TextField nameField;
     @FXML
@@ -34,9 +43,8 @@ public class HelloController {
     private TableColumn<EmployeeGrade, String> departmentColumnGrade;
     @FXML
     private TableColumn<EmployeeGrade, Double> gradeColumn;
-    private TableView<Employee> gradeTable;
-    @FXML
 
+    @FXML
     private EmployeeDAO employeeDAO;
 
     public void initialize() {
@@ -47,9 +55,16 @@ public class HelloController {
 
             // Настроить таблицу
             nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+            nameColumnTrash.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
             departmentColumn.setCellValueFactory(cellData -> cellData.getValue().departmentProperty());
+            departmentColumnTrash.setCellValueFactory(cellData -> cellData.getValue().departmentProperty());
+            nameColumnGrade.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+            departmentColumnGrade.setCellValueFactory(cellData -> cellData.getValue().departmentProperty());
+            gradeColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getGrade()).asObject());
 
+            loadGradeData();
             loadEmployeeData();
+            loadTrashData();
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert("Database Error", "Could not connect to the database.");
@@ -63,11 +78,18 @@ public class HelloController {
 
     public void loadTrashData() {
         List<Employee> employees = employeeDAO.getAllFromTrash();
-        employeeTable.getItems().setAll(employees);
+        trashTable.getItems().setAll(employees);
+    }
+    public void loadGradeData() {
+        List<EmployeeGrade> grades = employeeDAO.getAllGrades();
+        gradeTable.getItems().setAll(grades);
     }
     public void clearFields(){
         nameField.clear();
         departmentField.clear();
+        sofskill.clear();
+        hardskill.clear();
+        attendance.clear();
     }
     @FXML
     public void addEmployee() {
@@ -77,22 +99,25 @@ public class HelloController {
             Employee employee = new Employee(0, name, department, new java.util.Date());
             employeeDAO.addEmployee(employee);
             loadEmployeeData();
+            loadGradeData();
             // Очищаем поля после добавления
             clearFields();
             // Создаем кнопку или другое событие, чтобы вызвать alert
-            showAlert("Информация", "Сотрудник успешно добавлен в список!!!");
+            showAlert("Information", "The employee has been added to the list.");
         } else {
             showAlert("Input Error", "Please fill all fields.");
         }
     }
 
     @FXML
-    public void deleteEmployee() {
+    public void moveToTrash() {
         Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
         if (selectedEmployee != null) {
             employeeDAO.moveToTrash(selectedEmployee.getId());
             loadEmployeeData();
-            showAlert("Информация", "Сотрудник добавлен в корзину!!!");
+            loadTrashData();
+            loadGradeData();
+            showAlert("Information", "The employee has been added to your trash.");
         } else {
             showAlert("Selection Error", "Please select an employee to delete.");
         }
@@ -100,12 +125,13 @@ public class HelloController {
 
     @FXML
     public void restoreEmployee() {
-        Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
+        Employee selectedEmployee = trashTable.getSelectionModel().getSelectedItem();
         if (selectedEmployee != null) {
             employeeDAO.restoreFromTrash((selectedEmployee.getId()));
             loadTrashData();
-            System.out.println("Сотрудник восстановлен!!!");
-            showAlert("Информация", "Сотрудник восстановлен!!!");
+            loadEmployeeData();
+            loadGradeData();
+            showAlert("Information", "The employee has been restored!");
         } else {
             showAlert("Selection Error", "Please select an employee to restore.");
         }
@@ -117,11 +143,6 @@ public class HelloController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    public void loadGradeData() {
-        List<EmployeeGrade> grades = employeeDAO.getAllGrades();
-        gradeTable.getItems().setAll(grades);
     }
 
     @FXML
@@ -180,6 +201,21 @@ public class HelloController {
             }
         } else {
             showAlert("Selection Error", "Please select an employee to evaluate.");
+        }
+    }
+
+
+
+    @FXML
+    public void deleteEmployee() {
+        Employee selectedEmployee = trashTable.getSelectionModel().getSelectedItem();
+        if (selectedEmployee != null) {
+            employeeDAO.deleteEmployee(selectedEmployee.getId());
+            loadTrashData();
+            loadGradeData();
+            showAlert("Information", "The employee has been permanently deleted.");
+        } else {
+            showAlert("Selection Error", "Please select an employee to delete.");
         }
     }
 
