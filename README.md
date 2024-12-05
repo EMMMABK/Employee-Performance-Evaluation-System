@@ -8,7 +8,7 @@
 5. [Screenshots](#screenshots)
 6. [UML Class Diagram](#uml-class-diagram)
 7. [Weekly Meeting Documentation](#weekly-meeting-documentation)
-8. [OOP Concepts and questions](#oop-concepts-and-questions-)
+8. [OOP Concepts and questions](#oop-concepts-and-questions)
 9. [Github Repository](#github-repository)
 
 ## Description
