@@ -152,4 +152,84 @@ public class EmployeeDAO implements EmployeeDAOInterface {
         }
         return employee;
     }
+
+    public List<EmployeeGrade> getAllGrades() {
+        List<EmployeeGrade> grades = new ArrayList<>();
+        String query = """
+            SELECT e.id, e.name, e.department, e.hire_date, g.grade
+            FROM employees e
+            LEFT JOIN grades g ON e.id = g.employee_id
+        """;
+
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String department = resultSet.getString("department");
+                Date hireDate = resultSet.getDate("hire_date");
+                double grade = resultSet.getDouble("grade");
+
+                // Создаем объект EmployeeGrade, передавая параметры напрямую в конструктор
+                EmployeeGrade employeeGrade = new EmployeeGrade(id, name, department, hireDate, grade);
+
+                grades.add(employeeGrade);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return grades;
+    }
+
+
+
+
+    public void addGrade(int employeeId, double grade) {
+        String query = "INSERT INTO grades (employee_id, attendance, softskill, hardskill, grade) "
+                + "VALUES (?, 0, 0, 0, ?) "
+                + "ON CONFLICT (employee_id) DO UPDATE "
+                + "SET grade = EXCLUDED.grade";  // Это гарантирует, что если запись уже существует, то она будет обновлена
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, employeeId);
+            stmt.setDouble(2, grade);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public boolean gradeExists(int id) {
+        String query = "SELECT COUNT(*) FROM grades WHERE employee_id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if (resultSet.next()) {
+                // Если количество записей больше 0, значит оценка существует
+                return resultSet.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false; // Возвращаем false, если оценки не существует
+    }
+
+    public void updateGrade(int employeeId, double grade) {
+        String query = "UPDATE grades SET grade = ? WHERE employee_id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setDouble(1, grade);
+            stmt.setInt(2, employeeId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
