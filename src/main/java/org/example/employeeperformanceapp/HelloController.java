@@ -50,7 +50,7 @@ public class HelloController {
     public void initialize() {
         // Подключаемся к базе данных
         try {
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "190306");
+            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "123456");
             employeeDAO = new EmployeeDAO(connection);
 
             // Настроить таблицу

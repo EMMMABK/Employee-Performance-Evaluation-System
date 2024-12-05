@@ -9,9 +9,6 @@ CREATE TABLE employees (
 CREATE TABLE grades (
     id SERIAL PRIMARY KEY,
     employee_id INT REFERENCES employees(id) ON DELETE NO ACTION,
-    attendance INT NOT NULL,
-    softskill INT NOT NULL,
-    hardskill INT NOT NULL,
     grade FLOAT DEFAULT 0
 );
 ALTER TABLE grades DROP CONSTRAINT grades_employee_id_fkey;

@@ -197,10 +197,10 @@ public class EmployeeDAO implements EmployeeDAOInterface {
 
 
     public void addGrade(int employeeId, double grade) {
-        String query = "INSERT INTO grades (employee_id, attendance, softskill, hardskill, grade) "
-                + "VALUES (?, 0, 0, 0, ?) "
+        String query = "INSERT INTO grades (employee_id, grade) "
+                + "VALUES (?, ?) "
                 + "ON CONFLICT (employee_id) DO UPDATE "
-                + "SET grade = EXCLUDED.grade";  // Это гарантирует, что если запись уже существует, то она будет обновлена
+                + "SET grade = EXCLUDED.grade"; // Обновляет только grade при конфликте
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, employeeId);
@@ -210,6 +210,7 @@ public class EmployeeDAO implements EmployeeDAOInterface {
             e.printStackTrace();
         }
     }
+
 
 
     public boolean gradeExists(int id) {
