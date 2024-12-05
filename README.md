@@ -1,5 +1,16 @@
 # Employee Performance Management System
 
+## Table of Contents
+1. [Description](#description)
+2. [Project Requirements List](#project-requirements-list)
+3. Team Members List
+4. Roles of Group Members
+5. Screenshots
+6. UML Class Diagram
+7. Weekly Meeting Documentation
+8. Commit History
+9. OOP Concepts and questions
+
 ## Description
 The Employee Performance Management System is designed to help companies efficiently manage and evaluate their employees. It enables adding, editing, deleting, and moving employee records to a trash folder. Employees' performance is also tracked through an evaluation system that considers attendance, soft skills, and hard skills, allowing the HR team to manage and assess employees' overall performance. The system also includes functionalities to manage and restore deleted employee records.
 
