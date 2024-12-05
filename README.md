@@ -29,7 +29,7 @@ The following key functionalities are essential for the completion of the projec
 
 ## Team Members List
 - **Yryskeldi** - Project Manager, Backend Developer
-- **Jane Smith** - Frontend Developer, UI/UX Designer
+- **Altynbek** - Frontend Developer, UI/UX Designer
 - **Alice Johnson** - Database Administrator, Tester
 
 ## Roles of Group Members
