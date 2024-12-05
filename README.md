@@ -60,11 +60,7 @@ Weekly meeting summaries and action items can be found in the [Google Docs link]
 ## Commit History
 The commit history has been tracked and is available in the GitHub repository. Commits started more than 3 weeks before the submission date to ensure proper version control and collaboration.
 
-## OOP Concepts and questions 
-Here's how you can format the explanation and code examples for a `README.md` file:
-
-```markdown
-# OOP Concepts and Code Examples
+## OOP Concepts and questions
 
 ## 1. **Encapsulation**
 **Explanation:**  
