@@ -8,9 +8,8 @@
 5. [Screenshots](#screenshots)
 6. [UML Class Diagram](#uml-class-diagram)
 7. [Weekly Meeting Documentation](#weekly-meeting-documentation)
-8. [Commit History](#commit-history)
-9. [OOP Concepts and questions](#oop-concepts-and-questions-)
-10. [Github Repository](#github-repository)
+8. [OOP Concepts and questions](#oop-concepts-and-questions-)
+9. [Github Repository](#github-repository)
     
 ## Description
 The Employee Performance Evaluation System helps an organization manage and assess its employees' performance efficiently. It allows the user to add, edit, delete, and even move employee records to the trash. An employee's performance is also tracked through an evaluation system based on attendance, soft skills, and hard skills. This will enable the HR team to effectively manage and evaluate the overall performance of the employees. Besides, it has functions for managing and restoring deleted employee records.
@@ -58,9 +57,6 @@ The UML class diagram provides a visual representation of the system’s structu
 
 ## Weekly Meeting Documentation
 Weekly meeting summaries and action items can be found in the [Google Docs link](https://docs.google.com/document/d/1E4ld5ssIVgZshUG-lhLDjgzNAuSk3Rkg3Ik92CVwCgI/edit?usp=sharing).
-
-## Commit History
-The commit history has been tracked and is available in the GitHub repository. Commits started more than 3 weeks before the submission date to ensure proper version control and collaboration.
 
 ## OOP Concepts and questions
 
