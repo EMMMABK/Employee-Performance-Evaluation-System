@@ -32,10 +32,9 @@ The following key functionalities are essential for the completion of the projec
 - **Altynbek Zhonguchkaev** - Database Administrator, Backend Developer, Frontend Developer
 
 ## Roles of Group Members
-- **John Doe**: Managed the overall project, implemented the backend logic, and integrated database functions.
-- **Jane Smith**: Designed the user interface using JavaFX and SceneBuilder. Handled front-end integration.
-- **Alice Johnson**: Managed the database schema, created the `EmployeeDAO` class, and handled database connections and queries.
-- **Bob Brown**: Coordinated the project’s HR requirements, helped design workflows for employee management, and maintained GitHub repositories.
+- **Adil Bikiev**: Managed the overall project, implemented the backend logic, and integrated database functions.
+- **Yryskeldi Bakhapov**: Designed the user interface using JavaFX and SceneBuilder. Handled front-end integration.
+- **Altynbek Zhonguchkaev**: Managed the database schema, created the `EmployeeDAO` class, and handled database connections and queries.
 
 ## Screenshots
 Below are key screenshots showcasing the application:
@@ -62,6 +61,197 @@ Weekly meeting summaries and action items can be found in the [Google Docs link]
 The commit history has been tracked and is available in the GitHub repository. Commits started more than 3 weeks before the submission date to ensure proper version control and collaboration.
 
 ## OOP Concepts and questions 
+Here's how you can format the explanation and code examples for a `README.md` file:
+
+```markdown
+# OOP Concepts and Code Examples
+
+## 1. **Encapsulation**
+**Explanation:**  
+Encapsulation is used to protect data by making fields private and providing public getter and setter methods to access and modify them.
+
+**Code Example:**
+```java
+public class Employee {
+    private final StringProperty name;
+    private final StringProperty department;
+    private final Date hireDate;
+    private int id;
+
+    public Employee(int id, String name, String department, Date hireDate) {
+        this.id = id;
+        this.name = new SimpleStringProperty(name);
+        this.department = new SimpleStringProperty(department);
+        this.hireDate = hireDate;
+    }
+
+    // Getter for name
+    public String getName() {
+        return name.get();
+    }
+
+    // Setter for name
+    public void setName(String name) {
+        this.name.set(name);
+    }
+}
+```
+
+## 2. **Access Modifiers**
+**Explanation:**  
+Access modifiers control the visibility of classes, methods, and variables. `private` hides the fields from outside, while `public` makes them accessible.
+
+**Code Example:**
+```java
+public class EmployeeDAO {
+    private final Connection connection;  // private access to the connection
+
+    // public method accessible from outside
+    public void addEmployee(Employee employee) {
+        String query = "INSERT INTO employees (name, department, hire_date) VALUES (?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, employee.getName());
+            statement.setString(2, employee.getDepartment());
+            statement.setDate(3, new java.sql.Date(employee.getHireDate().getTime()));
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+## 3. **Constructor**
+**Explanation:**  
+Constructors are used to initialize objects with a valid state at the time of creation.
+
+**Code Example:**
+```java
+public Employee(int id, String name, String department, Date hireDate) {
+    this.id = id;
+    this.name = new SimpleStringProperty(name);
+    this.department = new SimpleStringProperty(department);
+    this.hireDate = hireDate;
+}
+```
+
+## 4. **Method Overloading**
+**Explanation:**  
+Method overloading allows multiple methods with the same name but different parameters, enabling the handling of different input types.
+
+**Code Example:**
+```java
+public void addGrade(int employeeId, double grade) {
+    // Add grade to employee
+}
+
+public void addGrade(EmployeeGrade employeeGrade) {
+    // Add grade from EmployeeGrade object
+}
+```
+
+## 5. **Exception Handling**
+**Explanation:**  
+Exception handling is used to manage errors, ensuring the application does not crash due to unexpected issues.
+
+**Code Example:**
+```java
+try {
+    Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "123456");
+} catch (SQLException e) {
+    e.printStackTrace();
+    showAlert("Database Error", "Could not connect to the database.");
+}
+```
+
+## 6. **Inheritance**
+**Explanation:**  
+Inheritance allows a class (e.g., `EmployeeGrade`) to reuse properties and methods from a parent class (`Employee`).
+
+**Code Example:**
+```java
+public class EmployeeGrade extends Employee {
+    private double grade;
+
+    public EmployeeGrade(int id, String name, String department, Date hireDate, double grade) {
+        super(id, name, department, hireDate);  // Inherited constructor
+        this.grade = grade;
+    }
+}
+```
+
+## 7. **Method Overriding**
+**Explanation:**  
+Method overriding allows subclasses to provide specific implementations of methods defined in a superclass.
+
+**Code Example:**
+```java
+@Override
+public String getName() {
+    return super.getName();  // Overriding the getName method
+}
+```
+
+## 8. **Interface**
+**Explanation:**  
+Interfaces define common behavior for classes to implement, ensuring consistency across different implementations.
+
+**Code Example:**
+```java
+public interface EmployeeDAOInterface {
+    void addEmployee(Employee employee);
+    void updateEmployee(Employee employee);
+}
+
+public class EmployeeDAO implements EmployeeDAOInterface {
+    @Override
+    public void addEmployee(Employee employee) {
+        // Implement add logic
+    }
+
+    @Override
+    public void updateEmployee(Employee employee) {
+        // Implement update logic
+    }
+}
+```
+
+## 9. **Polymorphism**
+**Explanation:**  
+Polymorphism allows the handling of objects of different types in a uniform way, typically through a common interface or superclass.
+
+**Code Example:**
+```java
+List<Employee> employees = new ArrayList<>();
+employees.add(new Employee(1, "John", "HR", new Date()));
+employees.add(new EmployeeGrade(2, "Alice", "Engineering", new Date(), 85));
+
+// Polymorphism in action
+for (Employee e : employees) {
+    System.out.println(e.getName());  // Works for both Employee and EmployeeGrade
+}
+```
+
+## 10. **Dependency Injection**
+**Explanation:**  
+Dependency Injection reduces tight coupling by passing dependencies (e.g., `EmployeeDAO`) to a class rather than creating them inside.
+
+**Code Example:**
+```java
+public class HelloController {
+    private EmployeeDAO employeeDAO;
+
+    // Constructor Injection
+    public HelloController(EmployeeDAO employeeDAO) {
+        this.employeeDAO = employeeDAO;
+    }
+
+    public void loadEmployeeData() {
+        List<Employee> employees = employeeDAO.getAllEmployees();
+        employeeTable.getItems().setAll(employees);
+    }
+}
+```
 
 ## GitHub Repository
 The project source code and documentation can be accessed on GitHub at [GitHub Repository Link](link-to-your-repository).
