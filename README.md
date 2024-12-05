@@ -11,7 +11,7 @@
 8. [Commit History](#commit-history)
 9. [OOP Concepts and questions](#oop-concepts-and-questions-)
 ## Description
-The Employee Performance Management System is designed to help companies efficiently manage and evaluate their employees. It enables adding, editing, deleting, and moving employee records to a trash folder. Employees' performance is also tracked through an evaluation system that considers attendance, soft skills, and hard skills, allowing the HR team to manage and assess employees' overall performance. The system also includes functionalities to manage and restore deleted employee records.
+The Employee Performance Evaluation System helps an organization manage and assess its employees' performance efficiently. It allows the user to add, edit, delete, and even move employee records to the trash. An employee's performance is also tracked through an evaluation system based on attendance, soft skills, and hard skills. This will enable the HR team to effectively manage and evaluate the overall performance of the employees. Besides, it has functions for managing and restoring deleted employee records.
 
 ## Project Requirements List
 The following key functionalities are essential for the completion of the project:
