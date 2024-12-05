@@ -10,7 +10,6 @@
 7. [Weekly Meeting Documentation](#weekly-meeting-documentation)
 8. [OOP Concepts and questions](#oop-concepts-and-questions-)
 9. [Github Repository](#github-repository)
-    ![Uploading empl_removebg-preview.png…]()
 
 ## Description
 The Employee Performance Evaluation System helps an organization manage and assess its employees' performance efficiently. It allows the user to add, edit, delete, and even move employee records to the trash. An employee's performance is also tracked through an evaluation system based on attendance, soft skills, and hard skills. This will enable the HR team to effectively manage and evaluate the overall performance of the employees. Besides, it has functions for managing and restoring deleted employee records.
@@ -37,7 +36,6 @@ The following key functionalities are essential for the completion of the projec
 - **Adil Bikiev**: Managed the overall project, implemented the backend logic, and integrated database functions.
 - **Yryskeldi Bakhapov**: Designed the user interface using JavaFX and SceneBuilder. Handled front-end integration.
 - **Altynbek Zhonguchkaev**: Managed the database schema, created the `EmployeeDAO` class, and handled database connections and queries.
-![Uploading Trash3.png…]()
 
 ## Screenshots
 Below are key screenshots showcasing the application:
