@@ -22,7 +22,19 @@ public class HelloController {
     private TextField nameField;
     @FXML
     private TextField departmentField;
-
+    @FXML
+    private TextField attendance;
+    @FXML
+    private TextField sofskill;
+    @FXML
+    private TextField hardskill;
+    @FXML
+    private TableColumn<EmployeeGrade, String> nameColumnGrade;
+    @FXML
+    private TableColumn<EmployeeGrade, String> departmentColumnGrade;
+    @FXML
+    private TableColumn<EmployeeGrade, Double> gradeColumn;
+    private TableView<Employee> gradeTable;
     @FXML
 
     private EmployeeDAO employeeDAO;
@@ -105,5 +117,10 @@ public class HelloController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void loadGradeData() {
+        List<EmployeeGrade> grades = employeeDAO.getAllGrades();
+        gradeTable.getItems().setAll(grades);
     }
 }
