@@ -9,8 +9,9 @@
 6. [UML Class Diagram](#uml-class-diagram)
 7. [Weekly Meeting Documentation](#weekly-meeting-documentation)
 8. [OOP Concepts and questions](#oop-concepts-and-questions)
-9. [Github Repository](#github-repository)
-10. [Presentation](#presentation)
+9. [Presentation](#presentation)
+10. [Github Repository](#github-repository)
+    
 
 ## Description
 The Employee Performance Evaluation System helps an organization manage and assess its employees' performance efficiently. It allows the user to add, edit, delete, and even move employee records to the trash. An employee's performance is also tracked through an evaluation system based on attendance, soft skills, and hard skills. This will enable the HR team to effectively manage and evaluate the overall performance of the employees. Besides, it has functions for managing and restoring deleted employee records.
