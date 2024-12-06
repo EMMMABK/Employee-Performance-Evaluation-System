@@ -49,7 +49,7 @@ Below are key screenshots showcasing the application:
 ## UML Class Diagram
 The UML class diagram provides a visual representation of the system’s structure, detailing the classes, attributes, methods, and their relationships.
 
-![UML Diagram](link-to-uml-diagram.jpg)
+![UML Diagram](UML/employeeperformanceapp2.png)
 
 ### Diagram Description:
 - **Employee**: Represents employee details with attributes like `name`, `department`, and `hireDate`.
