@@ -17,7 +17,6 @@ public class Employee {
         this.hireDate = hireDate;
     }
 
-    // Геттеры для name и department как StringProperty
     public StringProperty nameProperty() {
         return name;
     }

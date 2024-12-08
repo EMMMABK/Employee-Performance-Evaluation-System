@@ -48,12 +48,10 @@ public class HelloController {
     private EmployeeDAO employeeDAO;
 
     public void initialize() {
-        // Подключаемся к базе данных
         try {
             Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "123456");
             employeeDAO = new EmployeeDAO(connection);
 
-            // Настроить таблицу
             nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
             nameColumnTrash.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
             departmentColumn.setCellValueFactory(cellData -> cellData.getValue().departmentProperty());
@@ -100,9 +98,7 @@ public class HelloController {
             employeeDAO.addEmployee(employee);
             loadEmployeeData();
             loadGradeData();
-            // Очищаем поля после добавления
             clearFields();
-            // Создаем кнопку или другое событие, чтобы вызвать alert
             showAlert("Information", "The employee has been added to the list.");
         } else {
             showAlert("Input Error", "Please fill all fields.");
@@ -169,7 +165,6 @@ public class HelloController {
 
     @FXML
     public void evaluateEmployee() {
-//        Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
         Employee selectedEmployee = gradeTable.getSelectionModel().getSelectedItem();
         if (selectedEmployee != null) {
             try {
@@ -184,12 +179,9 @@ public class HelloController {
 
                 double averageScore = (attendance + hardSkill + softSkill) / 3;
 
-                // Проверка, существует ли оценка для данного сотрудника
                 if (!employeeDAO.gradeExists(selectedEmployee.getId())) {
-                    // Если оценки нет, добавляем ее
                     employeeDAO.addGrade(selectedEmployee.getId(), averageScore);
                 } else {
-                    // Если оценка уже есть, обновляем ее
                     employeeDAO.updateGrade(selectedEmployee.getId(), averageScore);
                 }
 

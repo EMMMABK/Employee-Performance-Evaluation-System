@@ -57,7 +57,6 @@ public class EmployeeDAO implements EmployeeDAOInterface {
         }
     }
 
-    // Новый метод для перемещения сотрудника в таблицу trash
     public void moveToTrash(int id) {
         String selectSql = "SELECT * FROM employees WHERE id = ?";
         String insertSql = "INSERT INTO trash (employee_id, name, department, hire_date) SELECT id, name, department, hire_date FROM employees WHERE id = ?";
@@ -67,7 +66,6 @@ public class EmployeeDAO implements EmployeeDAOInterface {
              PreparedStatement insertStmt = connection.prepareStatement(insertSql);
              PreparedStatement deleteStmt = connection.prepareStatement(deleteSql)) {
 
-            // Перемещаем данные из employees в trash
             selectStmt.setInt(1, id);
             ResultSet rs = selectStmt.executeQuery();
             if (rs.next()) {
@@ -88,11 +86,9 @@ public class EmployeeDAO implements EmployeeDAOInterface {
         try (PreparedStatement restoreStmt = connection.prepareStatement(restoreSql);
              PreparedStatement deleteStmt = connection.prepareStatement(deleteSql)) {
 
-            // Перемещаем данные из trash обратно в employees
             restoreStmt.setInt(1, id);
             restoreStmt.executeUpdate();
 
-            // Удаляем запись из trash
             deleteStmt.setInt(1, id);
             deleteStmt.executeUpdate();
         } catch (SQLException e) {
@@ -101,7 +97,6 @@ public class EmployeeDAO implements EmployeeDAOInterface {
     }
 
 
-    // Метод для получения всех сотрудников из trash
     public List<Employee> getAllFromTrash() {
         List<Employee> employees = new ArrayList<>();
         String sql = "SELECT * FROM trash";
@@ -180,7 +175,6 @@ public class EmployeeDAO implements EmployeeDAOInterface {
                 Date hireDate = resultSet.getDate("hire_date");
                 double grade = resultSet.getDouble("grade");
 
-                // Создаем объект EmployeeGrade, передавая параметры напрямую в конструктор
                 EmployeeGrade employeeGrade = new EmployeeGrade(id, name, department, hireDate, grade);
 
                 grades.add(employeeGrade);
@@ -200,7 +194,7 @@ public class EmployeeDAO implements EmployeeDAOInterface {
         String query = "INSERT INTO grades (employee_id, grade) "
                 + "VALUES (?, ?) "
                 + "ON CONFLICT (employee_id) DO UPDATE "
-                + "SET grade = EXCLUDED.grade"; // Обновляет только grade при конфликте
+                + "SET grade = EXCLUDED.grade";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, employeeId);
