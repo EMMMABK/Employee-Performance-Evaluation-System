@@ -9,8 +9,9 @@
 6. [UML Class Diagram](#uml-class-diagram)
 7. [Weekly Meeting Documentation](#weekly-meeting-documentation)
 8. [OOP Concepts and questions](#oop-concepts-and-questions)
-9. [Presentation](#presentation)
-10. [Github Repository](#github-repository)
+9. [Unit Test Cases](#unit-test-cases)
+10. [Presentation](#presentation)
+11. [Github Repository](#github-repository)
     
 
 ## Description
@@ -251,6 +252,49 @@ public class HelloController {
     }
 }
 ```
+
+## Unit Test Casesgit co
+
+The EmployeeTest class includes three tests that validate the functionality of the Employee class:
+
+    testGettersAndSetters: Verifies that the getters and setters for the employee’s attributes (ID, name, department, hire date) work as expected.
+    testNameProperty: Tests the property functionality of the employee's name and ensures the name can be correctly updated.
+    testDepartmentProperty: Tests the property functionality of the employee's department and ensures the department can be correctly updated.
+
+The tests make use of JUnit 5 for structuring and validating the tests.
+Test Cases
+testGettersAndSetters
+
+This test ensures that the employee's attributes can be correctly set and retrieved using getters and setters.
+
+    Steps:
+        An employee object is created with initial values for ID, name, department, and hire date.
+        The getters are tested to ensure they return the correct values.
+        The employee’s attributes are then updated using setters, and the getters are used again to confirm the updates.
+
+testNameProperty
+
+This test verifies the functionality of the employee's nameProperty() method and checks that the name can be correctly updated.
+
+    Steps:
+        An employee object is created.
+        The employee's name is updated using setName().
+        The nameProperty() method is used to verify that the property value reflects the change.
+
+testDepartmentProperty
+
+This test verifies the functionality of the employee's departmentProperty() method and checks that the department can be correctly updated.
+
+    Steps:
+        An employee object is created.
+        The employee's department is updated using setDepartment().
+        The departmentProperty() method is used to verify that the property value reflects the change.
+
+Dependencies
+
+    JUnit 5: The tests use the JUnit 5 framework for writing and executing the tests.
+
+
 ## Presentation
 The project's presentation, I did with free platform "Canva", you can download presentation in PDF-format: [Canva Presentation](https://www.canva.com/design/DAGYJpr8GLQ/Qbxf5jwPTlJ-F0KIpi8T8Q/view?utm_content=DAGYJpr8GLQ&utm_campaign=designshare&utm_medium=link&utm_source=editor)
 
