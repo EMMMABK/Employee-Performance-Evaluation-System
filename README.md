@@ -12,6 +12,7 @@
 9. [Unit Test Cases](#unit-test-cases)
 10. [Presentation](#presentation)
 11. [Github Repository](#github-repository)
+12. [Jar File Build](#jar-file-build)
     
 
 ## Description
@@ -301,3 +302,11 @@ The project's presentation, I did with free platform "Canva", you can download p
 
 ## GitHub Repository
 The project source code and documentation can be accessed on GitHub at [GitHub Repository Link](https://github.com/EMMMABK/Employee-Performance-Evaluation-System.git).
+
+## Jar File Build
+Installation requirements:
+1. https://gluonhq.com/products/javafx/ - JavaFX
+2. https://www.oracle.com/java/technologies/downloads/?er=221886#jdk23-windows - Java Downloads
+3. https://johann.loefflmann.net/en/software/jarfix/index.html - Jarfix
+
+You need to provide the path to the JavaFX file
