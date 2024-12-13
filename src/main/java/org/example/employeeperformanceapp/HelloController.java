@@ -49,7 +49,7 @@ public class HelloController {
 
     public void initialize() {
         try {
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "123");
+            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "123456");
             employeeDAO = new EmployeeDAO(connection);
 
             nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
@@ -123,11 +123,19 @@ public class HelloController {
     public void restoreEmployee() {
         Employee selectedEmployee = trashTable.getSelectionModel().getSelectedItem();
         if (selectedEmployee != null) {
-            employeeDAO.restoreFromTrash((selectedEmployee.getId()));
-            loadTrashData();
-            loadEmployeeData();
-            loadGradeData();
-            showAlert("Information", "The employee has been restored!");
+            try {
+                employeeDAO.restoreFromTrash(selectedEmployee.getId());
+                loadTrashData();
+                loadEmployeeData();
+                loadGradeData();
+                showAlert("Information", "The employee has been restored!");
+            } catch (SQLException e) {
+                if ("An employee with this ID already exists!".equals(e.getMessage())) {
+                    showAlert("Error", "An employee with this ID already exists!");
+                } else {
+                    showAlert("Error", "An error occurred while restoring the employee: " + e.getMessage());
+                }
+            }
         } else {
             showAlert("Selection Error", "Please select an employee to restore.");
         }

@@ -79,20 +79,30 @@ public class EmployeeDAO implements EmployeeDAOInterface {
         }
     }
 
-    public void restoreFromTrash(int id) {
-        String selectSql = "SELECT * FROM trash WHERE id = ?";
+    public void restoreFromTrash(int id) throws SQLException {
+        String checkSql = "SELECT COUNT(*) FROM employees WHERE id = ?";
         String restoreSql = "INSERT INTO employees (id, name, department, hire_date) SELECT employee_id, name, department, hire_date FROM trash WHERE employee_id = ?";
         String deleteSql = "DELETE FROM trash WHERE employee_id = ?";
-        try (PreparedStatement restoreStmt = connection.prepareStatement(restoreSql);
+
+        try (PreparedStatement checkStmt = connection.prepareStatement(checkSql);
+             PreparedStatement restoreStmt = connection.prepareStatement(restoreSql);
              PreparedStatement deleteStmt = connection.prepareStatement(deleteSql)) {
 
+            // Check if the employee already exists in employees table
+            checkStmt.setInt(1, id);
+            try (ResultSet rs = checkStmt.executeQuery()) {
+                if (rs.next() && rs.getInt(1) > 0) {
+                    throw new SQLException("An employee with this ID already exists!");
+                }
+            }
+
+            // Restore employee to employees table
             restoreStmt.setInt(1, id);
             restoreStmt.executeUpdate();
 
+            // Delete employee from trash table
             deleteStmt.setInt(1, id);
             deleteStmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
