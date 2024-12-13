@@ -6,13 +6,14 @@
 3. [Team Members List](#team-members-list)
 4. [Roles of Group Members](#roles-of-group-members)
 5. [Screenshots](#screenshots)
-6. [UML Class Diagram](#uml-class-diagram)
-7. [Weekly Meeting Documentation](#weekly-meeting-documentation)
-8. [OOP Concepts and questions](#oop-concepts-and-questions)
-9. [Unit Test Cases](#unit-test-cases)
-10. [Presentation](#presentation)
-11. [Github Repository](#github-repository)
-12. [Jar File Build](#jar-file-build)
+6. [Sample Data](#sample-data)
+7. [UML Class Diagram](#uml-class-diagram)
+8. [Weekly Meeting Documentation](#weekly-meeting-documentation)
+9. [OOP Concepts and questions](#oop-concepts-and-questions)
+10. [Unit Test Cases](#unit-test-cases)
+11. [Presentation](#presentation)
+12. [Github Repository](#github-repository)
+13. [Jar File Build](#jar-file-build)
     
 
 ## Description
@@ -49,6 +50,32 @@ Below are key screenshots showcasing the application:
 - **Grades**: ![Grades](/assets/grades/Grades1.png) ![Grades](/assets/grades/Grades2.png) ![Grades](/assets/grades/Grades3.png) ![Grades](/assets/grades/Grades4.png)
 - **Trash**: ![Trash](/assets/trash/Trash1.png) ![Trash](/assets/trash/Trash2.png) ![Trash](/assets/trash/Trash3.png)
 - **Database**: ![Database](/assets/db/psql1.png) ![Database](/assets/db/psql2.png) ![Database](/assets/db/psql3.png) ![Database](/assets/db/psql4.png) ![Database](/assets/db/psql5.png)
+
+## Sample Data
+It is possible in PostgreSQL: 
+```
+-- Insert sample data into the employees table
+INSERT INTO employees (name, department, hire_date) VALUES
+('Alice Johnson', 'HR', '2020-05-15'),
+('Bob Smith', 'Finance', '2019-11-20'),
+('Charlie Brown', 'IT', '2021-03-10'),
+('Diana Prince', 'Marketing', '2018-06-25'),
+('Evan Wright', 'Sales', '2022-01-10');
+
+-- Insert sample data into the grades table
+INSERT INTO grades (employee_id, grade) VALUES
+(1, 87.5),
+(2, 92.0),
+(3, 75.4),
+(4, 89.8),
+(5, 95.0);
+
+-- Insert sample data into the trash table
+INSERT INTO trash (employee_id, name, department, hire_date, deleted_at) VALUES
+(3, 'Theory Hping', 'CS', '2021-03-10', '2024-01-01 10:30:00'),
+(4, 'Flash Card', 'Marketing', '2018-06-25', '2024-01-02 11:00:00');
+```
+This is also possible by simply running our application and filling the table with this data through the application.
 
 ## UML Class Diagram
 The UML class diagram provides a visual representation of the system’s structure, detailing the classes, attributes, methods, and their relationships.
