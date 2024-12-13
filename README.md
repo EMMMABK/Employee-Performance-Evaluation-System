@@ -72,8 +72,8 @@ INSERT INTO grades (employee_id, grade) VALUES
 
 -- Insert sample data into the trash table
 INSERT INTO trash (employee_id, name, department, hire_date, deleted_at) VALUES
-(3, 'Theory Hping', 'CS', '2021-03-10', '2024-01-01 10:30:00'),
-(4, 'Flash Card', 'Marketing', '2018-06-25', '2024-01-02 11:00:00');
+(6, 'Christopher Mason', 'Arizona RP', '2021-03-10', '2024-01-01 10:30:00'),
+(7, 'EMMMABK', 'Brawl Stars', '2018-06-25', '2024-01-02 11:00:00');
 ```
 This is also possible by simply running our application and filling the table with this data through the application.
 
