@@ -64,11 +64,11 @@ INSERT INTO employees (name, department, hire_date) VALUES
 
 -- Insert sample data into the grades table
 INSERT INTO grades (employee_id, grade) VALUES
-(1, 87.5),
-(2, 92.0),
-(3, 75.4),
-(4, 89.8),
-(5, 95.0);
+(1, 9.333334),
+(2, 8.3432),
+(3, 5.0),
+(4, 10.0),
+(5, 7.64523);
 
 -- Insert sample data into the trash table
 INSERT INTO trash (employee_id, name, department, hire_date, deleted_at) VALUES
