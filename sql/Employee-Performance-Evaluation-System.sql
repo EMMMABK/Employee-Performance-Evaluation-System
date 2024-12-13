@@ -11,6 +11,7 @@ CREATE TABLE grades (
     employee_id INT REFERENCES employees(id) ON DELETE NO ACTION,
     grade FLOAT DEFAULT 0
 );
+ALTER TABLE grades ADD CONSTRAINT check_grade_max CHECK (grade <= 10.0);
 ALTER TABLE grades DROP CONSTRAINT grades_employee_id_fkey;
 ALTER TABLE grades ADD CONSTRAINT unique_employee_id UNIQUE (employee_id);
 
