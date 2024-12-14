@@ -1,15 +1,19 @@
 package org.example.employeeperformanceapp;
 
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 public class HelloController {
@@ -43,7 +47,28 @@ public class HelloController {
     private TableColumn<EmployeeGrade, String> departmentColumnGrade;
     @FXML
     private TableColumn<EmployeeGrade, Double> gradeColumn;
+    @FXML
+    private VBox projectListVBox;
+    @FXML
+    private TextField nameFieldP;
+    @FXML
+    private TextField descriptionField;
+    @FXML
+    private TextField startDateField;
+    @FXML
+    private TextField endDateField;
+    @FXML
+    private TableView<Project> projectTable;
+    @FXML
+    private TableColumn<Project, String> namePColumn;
+    @FXML
+    private TableColumn<Project, String> descriptionColumn;
+    @FXML
+    private TableColumn<Project, Date> startDateColumn;
+    @FXML
+    private TableColumn<Project, Date> endDateColumn;
 
+    private ProjectDAO projectDAO;
     @FXML
     private EmployeeDAO employeeDAO;
 
@@ -51,6 +76,7 @@ public class HelloController {
         try {
             Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "123456");
             employeeDAO = new EmployeeDAO(connection);
+            projectDAO = new ProjectDAO(connection);
 
             nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
             nameColumnTrash.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
@@ -60,13 +86,154 @@ public class HelloController {
             departmentColumnGrade.setCellValueFactory(cellData -> cellData.getValue().departmentProperty());
             gradeColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getGrade()).asObject());
 
+            namePColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+            descriptionColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
+            startDateColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getStartDate()));
+            endDateColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getEndDate()));
+
             loadGradeData();
             loadEmployeeData();
             loadTrashData();
+            loadProjects();
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert("Database Error", "Could not connect to the database.");
         }
+    }
+    @FXML
+    public void addProject() {
+        String name = nameFieldP.getText();
+        String description = descriptionField.getText();
+
+        String startDateText = startDateField.getText();
+        String endDateText = endDateField.getText();
+
+        if (!isValidDate(startDateText)) {
+            showAlert("Invalid Date", "Please enter the start date in the correct format: yyyy-MM-dd", AlertType.ERROR);
+            return;
+        }
+
+        try {
+            Date startDate = Date.valueOf(startDateText);
+
+            Date endDate = null;
+            if (!endDateText.isEmpty()) {
+                if (!isValidDate(endDateText)) {
+                    showAlert("Invalid Date", "Please enter the end date in the correct format: yyyy-MM-dd", AlertType.ERROR);
+                    return;
+                }
+                endDate = Date.valueOf(endDateText);
+            }
+
+            boolean isAdded = projectDAO.addProject(name, description, startDate, endDate);
+            if (isAdded) {
+                showAlert("Project Added", "Project has been added successfully", AlertType.INFORMATION);
+                clearFieldsProj();
+                loadProjects();
+            } else {
+                showAlert("Error", "Failed to add project", AlertType.ERROR);
+            }
+        } catch (IllegalArgumentException e) {
+            showAlert("Invalid Date", "Please enter a valid start date", AlertType.ERROR);
+        }
+    }
+
+
+    @FXML
+    public void editProject() {
+        Project selectedProject = projectTable.getSelectionModel().getSelectedItem();
+        if (selectedProject != null) {
+            int projectId = selectedProject.getId();
+            String name = nameFieldP.getText();
+            String description = descriptionField.getText();
+
+            String startDateText = startDateField.getText();
+            String endDateText = endDateField.getText();
+
+            // Проверка формата startDate
+            if (!isValidDate(startDateText)) {
+                showAlert("Invalid Date", "Please enter the start date in the correct format: yyyy-MM-dd", AlertType.ERROR);
+                return;
+            }
+
+            try {
+                Date startDate = Date.valueOf(startDateText);
+
+                Date endDate = null;
+                if (!endDateText.isEmpty()) {
+                    if (!isValidDate(endDateText)) {
+                        showAlert("Invalid Date", "Please enter the end date in the correct format: yyyy-MM-dd", AlertType.ERROR);
+                        return;
+                    }
+                    endDate = Date.valueOf(endDateText);
+                }
+
+                boolean isEdited = projectDAO.editProject(projectId, name, description, startDate, endDate);
+                if (isEdited) {
+                    showAlert("Project Edited", "Project has been edited successfully", AlertType.INFORMATION);
+                    loadProjects();
+                    clearFieldsProj();
+                } else {
+                    showAlert("Error", "Failed to edit project", AlertType.ERROR);
+                }
+            } catch (IllegalArgumentException e) {
+                showAlert("Invalid Date", "Please enter a valid start date", AlertType.ERROR);
+            }
+        } else {
+            showAlert("No Selection", "Please select a project to edit", AlertType.WARNING);
+        }
+    }
+
+
+    private boolean isValidDate(String date) {
+        try {
+            // Try parsing the date using LocalDate, which will validate it properly
+            LocalDate.parse(date);
+            return true; // Date is valid
+        } catch (DateTimeParseException e) {
+            return false; // Date is invalid
+        }
+    }
+
+
+
+    @FXML
+    public void deleteProject() {
+        Project selectedProject = projectTable.getSelectionModel().getSelectedItem();
+        if (selectedProject != null) {
+            int projectId = selectedProject.getId(); // Assuming your Project class has an 'id' field
+
+            boolean isDeleted = projectDAO.deleteProject(projectId);
+            if (isDeleted) {
+                showAlert("Project Deleted", "Project has been deleted successfully", AlertType.INFORMATION);
+                loadProjects();
+            } else {
+                showAlert("Error", "Failed to delete project", AlertType.ERROR);
+            }
+        } else {
+            showAlert("No Selection", "Please select a project to delete", AlertType.WARNING);
+        }
+    }
+
+    private void clearFieldsProj() {
+        nameFieldP.clear();
+        descriptionField.clear();
+        startDateField.clear();
+        endDateField.clear();
+    }
+
+    public void loadProjects() {
+        List<Project> projects = projectDAO.getAllProjects();
+        projectTable.getItems().setAll(projects);
+    }
+
+
+    private void showAlert(String title, String message, AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     public void loadEmployeeData() {
@@ -218,5 +385,6 @@ public class HelloController {
             showAlert("Selection Error", "Please select an employee to delete.");
         }
     }
+
 
 }
