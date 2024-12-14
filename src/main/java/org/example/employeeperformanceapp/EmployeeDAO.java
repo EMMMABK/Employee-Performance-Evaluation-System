@@ -58,53 +58,108 @@ public class EmployeeDAO implements EmployeeDAOInterface {
     }
 
     public void moveToTrash(int id) {
-        String selectSql = "SELECT * FROM employees WHERE id = ?";
-        String insertSql = "INSERT INTO trash (employee_id, name, department, hire_date) SELECT id, name, department, hire_date FROM employees WHERE id = ?";
-        String deleteSql = "DELETE FROM employees WHERE id = ?";
+        String selectEmployeeSql = "SELECT * FROM employees WHERE id = ?";
+        String selectGradeSql = "SELECT grade FROM grades WHERE employee_id = ?";
+        String insertTrashSql = "INSERT INTO trash (employee_id, name, department, grade, hire_date, deleted_at) " +
+                "SELECT id, name, department, ?, hire_date, CURRENT_TIMESTAMP FROM employees WHERE id = ?";
+        String deleteFromGradesSql = "DELETE FROM grades WHERE employee_id = ?";
+        String deleteFromEmployeesSql = "DELETE FROM employees WHERE id = ?";
 
-        try (PreparedStatement selectStmt = connection.prepareStatement(selectSql);
-             PreparedStatement insertStmt = connection.prepareStatement(insertSql);
-             PreparedStatement deleteStmt = connection.prepareStatement(deleteSql)) {
+        try (PreparedStatement selectEmployeeStmt = connection.prepareStatement(selectEmployeeSql);
+             PreparedStatement selectGradeStmt = connection.prepareStatement(selectGradeSql);
+             PreparedStatement insertTrashStmt = connection.prepareStatement(insertTrashSql);
+             PreparedStatement deleteFromGradesStmt = connection.prepareStatement(deleteFromGradesSql);
+             PreparedStatement deleteFromEmployeesStmt = connection.prepareStatement(deleteFromEmployeesSql)) {
 
-            selectStmt.setInt(1, id);
-            ResultSet rs = selectStmt.executeQuery();
-            if (rs.next()) {
-                insertStmt.setInt(1, id);
-                insertStmt.executeUpdate();
-                deleteStmt.setInt(1, id);
-                deleteStmt.executeUpdate();
+            selectEmployeeStmt.setInt(1, id);
+            ResultSet employeeRs = selectEmployeeStmt.executeQuery();
+
+            if (employeeRs.next()) {
+                selectGradeStmt.setInt(1, id);
+                ResultSet gradeRs = selectGradeStmt.executeQuery();
+                float grade = 0;
+                if (gradeRs.next()) {
+                    grade = gradeRs.getFloat("grade");
+                }
+
+                System.out.println("Moving employee ID " + id + " to trash...");
+                System.out.println("Employee name: " + employeeRs.getString("name"));
+                System.out.println("Grade: " + grade);
+
+                insertTrashStmt.setFloat(1, grade);
+                insertTrashStmt.setInt(2, id);
+                int rowsInserted = insertTrashStmt.executeUpdate();
+                if (rowsInserted > 0) {
+                    System.out.println("Employee with ID " + id + " successfully moved to trash.");
+                } else {
+                    System.out.println("Failed to insert employee into trash.");
+                }
+
+                deleteFromGradesStmt.setInt(1, id);
+                int rowsDeletedFromGrades = deleteFromGradesStmt.executeUpdate();
+                if (rowsDeletedFromGrades > 0) {
+                    System.out.println("Grade for employee with ID " + id + " successfully deleted.");
+                } else {
+                    System.out.println("Failed to delete grade for employee with ID " + id);
+                }
+
+                deleteFromEmployeesStmt.setInt(1, id);
+                int rowsDeletedFromEmployees = deleteFromEmployeesStmt.executeUpdate();
+                if (rowsDeletedFromEmployees > 0) {
+                    System.out.println("Employee with ID " + id + " successfully deleted from employees.");
+                } else {
+                    System.out.println("Failed to delete employee with ID " + id);
+                }
+
+            } else {
+                System.out.println("Employee with ID " + id + " does not exist.");
             }
         } catch (SQLException e) {
+            System.err.println("Error while moving employee to trash: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
+
+
+
+
     public void restoreFromTrash(int id) throws SQLException {
-        String checkSql = "SELECT COUNT(*) FROM employees WHERE id = ?";
-        String restoreSql = "INSERT INTO employees (id, name, department, hire_date) SELECT employee_id, name, department, hire_date FROM trash WHERE employee_id = ?";
+        String checkEmployeeSql = "SELECT COUNT(*) FROM employees WHERE id = ?";
+        String restoreEmployeeSql = "INSERT INTO employees (id, name, department, hire_date) " +
+                "SELECT employee_id, name, department, hire_date FROM trash WHERE employee_id = ?";
+        String restoreGradeSql = "INSERT INTO grades (employee_id, grade) " +
+                "SELECT employee_id, grade FROM trash WHERE employee_id = ?";
         String deleteSql = "DELETE FROM trash WHERE employee_id = ?";
 
-        try (PreparedStatement checkStmt = connection.prepareStatement(checkSql);
-             PreparedStatement restoreStmt = connection.prepareStatement(restoreSql);
+        try (PreparedStatement checkEmployeeStmt = connection.prepareStatement(checkEmployeeSql);
+             PreparedStatement restoreEmployeeStmt = connection.prepareStatement(restoreEmployeeSql);
+             PreparedStatement restoreGradeStmt = connection.prepareStatement(restoreGradeSql);
              PreparedStatement deleteStmt = connection.prepareStatement(deleteSql)) {
 
-            // Check if the employee already exists in employees table
-            checkStmt.setInt(1, id);
-            try (ResultSet rs = checkStmt.executeQuery()) {
+            checkEmployeeStmt.setInt(1, id);
+            try (ResultSet rs = checkEmployeeStmt.executeQuery()) {
                 if (rs.next() && rs.getInt(1) > 0) {
-                    throw new SQLException("An employee with this ID already exists!");
+                    throw new SQLException("An employee with this ID already exists in the employees table!");
                 }
             }
 
-            // Restore employee to employees table
-            restoreStmt.setInt(1, id);
-            restoreStmt.executeUpdate();
+            restoreEmployeeStmt.setInt(1, id);
+            restoreEmployeeStmt.executeUpdate();
 
-            // Delete employee from trash table
+            restoreGradeStmt.setInt(1, id);
+            restoreGradeStmt.executeUpdate();
+
             deleteStmt.setInt(1, id);
             deleteStmt.executeUpdate();
+
+            System.out.println("Employee with ID " + id + " successfully restored from trash.");
+        } catch (SQLException e) {
+            System.err.println("Error while restoring employee from trash: " + e.getMessage());
+            throw e;
         }
     }
+
 
 
     public List<Employee> getAllFromTrash() {
