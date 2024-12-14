@@ -24,3 +24,12 @@ CREATE TABLE trash (
     deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE employee_grades (
+    employee_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    department VARCHAR(50),
+    hire_date DATE,
+    grade FLOAT,
+    CONSTRAINT fk_employee FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE
+);
+
