@@ -225,12 +225,18 @@ public class EmployeeDAO implements EmployeeDAOInterface {
     public List<EmployeeGrade> getAllGrades() {
         List<EmployeeGrade> grades = new ArrayList<>();
         String query = """
-            SELECT e.id, e.name, e.department, e.hire_date, g.grade
-            FROM employees e
-            LEFT JOIN grades g ON e.id = g.employee_id
-        """;
+        SELECT e.id, e.name, e.department, e.hire_date, g.grade
+        FROM employees e
+        LEFT JOIN grades g ON e.id = g.employee_id
+    """;
+        String insertSql = """
+        INSERT INTO employee_grades (employee_id, name, department, hire_date, grade)
+        SELECT ?, ?, ?, ?, ?
+        ON CONFLICT (employee_id) DO NOTHING
+    """;
 
         try (PreparedStatement statement = connection.prepareStatement(query);
+             PreparedStatement insertStatement = connection.prepareStatement(insertSql);
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
@@ -240,9 +246,17 @@ public class EmployeeDAO implements EmployeeDAOInterface {
                 Date hireDate = resultSet.getDate("hire_date");
                 double grade = resultSet.getDouble("grade");
 
+                // Добавляем в список
                 EmployeeGrade employeeGrade = new EmployeeGrade(id, name, department, hireDate, grade);
-
                 grades.add(employeeGrade);
+
+                // Вставляем данные в таблицу employee_grades
+                insertStatement.setInt(1, id);
+                insertStatement.setString(2, name);
+                insertStatement.setString(3, department);
+                insertStatement.setDate(4, new java.sql.Date(hireDate.getTime()));
+                insertStatement.setDouble(5, grade);
+                insertStatement.executeUpdate();
             }
 
         } catch (SQLException e) {
@@ -251,8 +265,6 @@ public class EmployeeDAO implements EmployeeDAOInterface {
 
         return grades;
     }
-
-
 
 
     public void addGrade(int employeeId, double grade) {
