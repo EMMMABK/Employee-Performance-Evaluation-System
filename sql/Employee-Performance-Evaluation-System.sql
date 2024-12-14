@@ -9,7 +9,7 @@ CREATE TABLE grades (
     id SERIAL PRIMARY KEY,
     employee_id INT,
     grade FLOAT DEFAULT 0,
-    CONSTRAINT fk_employee_grades FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE,  -- Используем CASCADE
+    CONSTRAINT fk_employee_grades FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE, 
     CONSTRAINT check_grade_max CHECK (grade <= 10.0),
     CONSTRAINT unique_employee_id UNIQUE (employee_id)
 );
@@ -33,3 +33,11 @@ CREATE TABLE employee_grades (
     CONSTRAINT fk_employee FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE
 );
 
+
+CREATE TABLE projects (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    description TEXT,
+    start_date DATE NOT NULL,
+    end_date DATE
+);
