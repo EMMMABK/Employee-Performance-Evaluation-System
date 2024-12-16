@@ -92,6 +92,10 @@ The UML class diagram provides a visual representation of the system’s structu
 
 ![UML Diagram](UML/employeeperformanceapp3.png)
 
+## E-R Diagram 
+
+![E-R Diagram](E-R/E-R.png)
+
 ### Diagram Description:
 - **Employee**: Represents employee details with attributes like `name`, `department`, and `hireDate`.
 - **EmployeeGrade**: Extends `Employee` and adds an additional property `grade` to store the evaluation score.
