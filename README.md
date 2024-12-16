@@ -54,26 +54,48 @@ Below are key screenshots showcasing the application:
 ## Sample Data
 It is possible in PostgreSQL: 
 ```
--- Insert sample data into the employees table
-INSERT INTO employees (name, department, hire_date) VALUES
+-- Вставка данных в таблицу employees
+INSERT INTO employees (name, department, hire_date)
+VALUES 
 ('Alice Johnson', 'HR', '2020-05-15'),
-('Bob Smith', 'Finance', '2019-11-20'),
-('Charlie Brown', 'IT', '2021-03-10'),
-('Diana Prince', 'Marketing', '2018-06-25'),
-('Evan Wright', 'Sales', '2022-01-10');
+('Bob Smith', 'IT', '2018-03-20'),
+('Charlie Brown', 'Finance', '2019-07-10'),
+('Diana White', 'IT', '2021-01-25'),
+('Eve Black', 'Marketing', '2022-08-05');
 
--- Insert sample data into the grades table
-INSERT INTO grades (employee_id, grade) VALUES
-(1, 9.333334),
-(2, 8.3432),
-(3, 5.0),
-(4, 10.0),
-(5, 7.64523);
+-- Вставка данных в таблицу grades
+INSERT INTO grades (employee_id, grade)
+VALUES 
+(1, 8.5),
+(2, 9.2),
+(3, 7.8),
+(4, 6.5),
+(5, 8.9);
 
--- Insert sample data into the trash table
-INSERT INTO trash (employee_id, name, department, hire_date, deleted_at) VALUES
-(6, 'Christopher Mason', 'Arizona RP', '2021-03-10', '2024-01-01 10:30:00'),
-(7, 'EMMMABK', 'Brawl Stars', '2018-06-25', '2024-01-02 11:00:00');
+-- Вставка данных в таблицу projects
+INSERT INTO projects (pr_employee_id, title, description, start_date, end_date)
+VALUES
+(2, 'Cloud Migration', 'Migrate the company\'s infrastructure to the cloud', '2023-01-01', '2023-06-30'),
+(3, 'Budget Analysis', 'Perform a detailed analysis of company expenses', '2023-02-15', NULL),
+(5, 'Marketing Campaign', 'Launch a new social media campaign', '2023-03-01', '2023-05-15');
+
+-- Перемещение данных сотрудника в таблицу trash (пример для удаления сотрудника)
+INSERT INTO trash (employee_id, name, department, grade, hire_date)
+SELECT id, name, department, 
+       (SELECT grade FROM grades WHERE grades.employee_id = employees.id),
+       hire_date
+FROM employees 
+WHERE id = 4;
+
+-- Удаление сотрудника из таблицы employees и связанной записи из grades
+DELETE FROM employees WHERE id = 4;
+DELETE FROM grades WHERE employee_id = 4;
+
+-- Вставка данных в таблицу employee_grades (объединённые данные)
+INSERT INTO employee_grades (employee_id, name, department, hire_date, grade)
+SELECT e.id, e.name, e.department, e.hire_date, g.grade
+FROM employees e
+LEFT JOIN grades g ON e.id = g.employee_id;
 ```
 This is also possible by simply running our application and filling the table with this data through the application.
 
