@@ -54,7 +54,7 @@ Below are key screenshots showcasing the application:
 ## Sample Data
 It is possible in PostgreSQL: 
 ```
--- Вставка данных в таблицу employees
+-- Insert data into the employees table
 INSERT INTO employees (name, department, hire_date)
 VALUES 
 ('Alice Johnson', 'HR', '2020-05-15'),
@@ -63,7 +63,7 @@ VALUES
 ('Diana White', 'IT', '2021-01-25'),
 ('Eve Black', 'Marketing', '2022-08-05');
 
--- Вставка данных в таблицу grades
+-- Insert data into the grades table
 INSERT INTO grades (employee_id, grade)
 VALUES 
 (1, 8.5),
@@ -72,14 +72,14 @@ VALUES
 (4, 6.5),
 (5, 8.9);
 
--- Вставка данных в таблицу projects
+-- Insert data into the projects table
 INSERT INTO projects (pr_employee_id, title, description, start_date, end_date)
 VALUES
 (2, 'Cloud Migration', 'Migrate the company\'s infrastructure to the cloud', '2023-01-01', '2023-06-30'),
 (3, 'Budget Analysis', 'Perform a detailed analysis of company expenses', '2023-02-15', NULL),
 (5, 'Marketing Campaign', 'Launch a new social media campaign', '2023-03-01', '2023-05-15');
 
--- Перемещение данных сотрудника в таблицу trash (пример для удаления сотрудника)
+-- Move data for a deleted employee into the trash table
 INSERT INTO trash (employee_id, name, department, grade, hire_date)
 SELECT id, name, department, 
        (SELECT grade FROM grades WHERE grades.employee_id = employees.id),
@@ -87,11 +87,11 @@ SELECT id, name, department,
 FROM employees 
 WHERE id = 4;
 
--- Удаление сотрудника из таблицы employees и связанной записи из grades
+-- Delete the employee from employees and their grade from grades
 DELETE FROM employees WHERE id = 4;
 DELETE FROM grades WHERE employee_id = 4;
 
--- Вставка данных в таблицу employee_grades (объединённые данные)
+-- Insert combined data into the employee_grades table
 INSERT INTO employee_grades (employee_id, name, department, hire_date, grade)
 SELECT e.id, e.name, e.department, e.hire_date, g.grade
 FROM employees e
