@@ -8,7 +8,7 @@
 5. [Screenshots](#screenshots)
 6. [Sample Data](#sample-data)
 7. [UML Class Diagram](#uml-class-diagram)
-8. [E-R Diagrams](#e-r-diagrams)
+8. [E-R Diagrams](#e-r-diagram)
 9. [Weekly Meeting Documentation](#weekly-meeting-documentation)
 10. [OOP Concepts and questions](#oop-concepts-and-questions)
 11. [Unit Test Cases](#unit-test-cases)
@@ -92,16 +92,16 @@ The UML class diagram provides a visual representation of the system’s structu
 
 ![UML Diagram](UML/employeeperformanceapp3.png)
 
-## E-R Diagram 
-
-![E-R Diagram](E-R/E-R.png)
-
 ### Diagram Description:
 - **Employee**: Represents employee details with attributes like `name`, `department`, and `hireDate`.
 - **EmployeeGrade**: Extends `Employee` and adds an additional property `grade` to store the evaluation score.
 - **EmployeeDAO**: Handles database operations for managing employees and grades.
 - **EmployeeDAOInterface**: Interface for CRUD operations related to employee records.
 - **HelloController**: JavaFX controller that handles UI interactions, including employee addition, modification, deletion, and evaluation.
+
+## E-R Diagram
+
+![E-R Diagram](E-R/E-R.png)
 
 ## Weekly Meeting Documentation
 Weekly meeting summaries and action items can be found in the [Google Docs link](https://docs.google.com/document/d/1E4ld5ssIVgZshUG-lhLDjgzNAuSk3Rkg3Ik92CVwCgI/edit?usp=sharing).
