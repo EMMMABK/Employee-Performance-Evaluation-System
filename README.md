@@ -33,6 +33,10 @@ The following key functionalities are essential for the completion of the projec
 8. **Employee Grades**: View and update performance grades for employees based on evaluations.
 9. **Grade Existence Check**: Ensure that grades are only added or updated for existing employees.
 10. **Clear Input Fields**: Automatically clear the input fields after adding or editing employee records.
+11. **View Project**: View project data such as title, description, dates.
+12. **Add Project**: Add project to the database and project information like title, description, dates.
+13. **Delete Project**: Delete a project and its information without moving it to the trash.
+14. **Edit Project**: Edit project information like title, description, dates.
 
 ## Team Members List
 - **Adil Bikiev** - Project Manager, Database Administrator, Backend Developer
