@@ -8,7 +8,7 @@
 5. [Screenshots](#screenshots)
 6. [Sample Data](#sample-data)
 7. [UML Class Diagram](#uml-class-diagram)
-8. [E-R Diagrams](#)
+8. [E-R Diagrams](#e-r-diagrams)
 9. [Weekly Meeting Documentation](#weekly-meeting-documentation)
 10. [OOP Concepts and questions](#oop-concepts-and-questions)
 11. [Unit Test Cases](#unit-test-cases)
