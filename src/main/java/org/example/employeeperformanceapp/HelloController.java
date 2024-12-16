@@ -74,7 +74,7 @@ public class HelloController {
 
     public void initialize() {
         try {
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "123456");
+            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "123");
             employeeDAO = new EmployeeDAO(connection);
             projectDAO = new ProjectDAO(connection);
 
