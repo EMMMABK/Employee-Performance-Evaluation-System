@@ -79,23 +79,9 @@ VALUES
 (3, 'Budget Analysis', 'Perform a detailed analysis of company expenses', '2023-02-15', NULL),
 (5, 'Marketing Campaign', 'Launch a new social media campaign', '2023-03-01', '2023-05-15');
 
--- Move data for a deleted employee into the trash table
 INSERT INTO trash (employee_id, name, department, grade, hire_date)
-SELECT id, name, department, 
-       (SELECT grade FROM grades WHERE grades.employee_id = employees.id),
-       hire_date
-FROM employees 
-WHERE id = 4;
-
--- Delete the employee from employees and their grade from grades
-DELETE FROM employees WHERE id = 4;
-DELETE FROM grades WHERE employee_id = 4;
-
--- Insert combined data into the employee_grades table
-INSERT INTO employee_grades (employee_id, name, department, hire_date, grade)
-SELECT e.id, e.name, e.department, e.hire_date, g.grade
-FROM employees e
-LEFT JOIN grades g ON e.id = g.employee_id;
+VALUES 
+(999, 'John Doe', 'Research', 7.5, '2021-12-01');
 ```
 This is also possible by simply running our application and filling the table with this data through the application.
 
