@@ -39,5 +39,7 @@ CREATE TABLE projects (
     title VARCHAR(100) NOT NULL,
     description TEXT,
     start_date DATE NOT NULL,
-    end_date DATE
+    end_date DATE,
+    CHECK (end_date IS NULL OR end_date > start_date)
 );
+

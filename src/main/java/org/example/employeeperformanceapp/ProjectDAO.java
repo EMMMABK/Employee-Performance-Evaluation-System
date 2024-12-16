@@ -22,10 +22,16 @@ public class ProjectDAO {
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e instanceof org.postgresql.util.PSQLException
+                    && e.getMessage().contains("violates check constraint")) {
+                System.err.println("Error: A CHECK constraint violation occurred in the 'projects' table. Please verify the input data.");
+            } else {
+                System.err.println("An error occurred while executing the SQL query: " + e.getMessage());
+            }
         }
         return false;
     }
+
 
     // Edit an existing project
     public boolean editProject(int id, String name, String description, Date startDate, Date endDate) {

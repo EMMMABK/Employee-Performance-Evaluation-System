@@ -15,6 +15,7 @@
 12. [Presentation](#presentation)
 13. [Github Repository](#github-repository)
 14. [Jar File Build](#jar-file-build)
+15. [Youtube](#youtube-video)
     
 
 ## Description
@@ -32,10 +33,6 @@ The following key functionalities are essential for the completion of the projec
 8. **Employee Grades**: View and update performance grades for employees based on evaluations.
 9. **Grade Existence Check**: Ensure that grades are only added or updated for existing employees.
 10. **Clear Input Fields**: Automatically clear the input fields after adding or editing employee records.
-11. **Add Project**: Add new projects to the system with basic information such as name, description, dates.
-12. **Delete Project**: Deletes project data without moving it to the trash.
-13. **Edit Project**: Changes the project data like name, description, dates.
-14. **View All Projects**: Display a list of all projects with relevant details.
 
 ## Team Members List
 - **Adil Bikiev** - Project Manager, Database Administrator, Backend Developer
@@ -101,10 +98,6 @@ The UML class diagram provides a visual representation of the system’s structu
 - **EmployeeDAO**: Handles database operations for managing employees and grades.
 - **EmployeeDAOInterface**: Interface for CRUD operations related to employee records.
 - **HelloController**: JavaFX controller that handles UI interactions, including employee addition, modification, deletion, and evaluation.
-
-## E-R Diagrams
-
-![E-R Diagram](E-R/E-R.png)
 
 ## Weekly Meeting Documentation
 Weekly meeting summaries and action items can be found in the [Google Docs link](https://docs.google.com/document/d/1E4ld5ssIVgZshUG-lhLDjgzNAuSk3Rkg3Ik92CVwCgI/edit?usp=sharing).
