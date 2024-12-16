@@ -79,9 +79,9 @@ VALUES
 (5, 8.9);
 
 -- Insert data into the projects table
-INSERT INTO projects (pr_employee_id, title, description, start_date, end_date)
+INSERT INTO projects (id, title, description, start_date, end_date)
 VALUES
-(2, 'Cloud Migration', 'Migrate the company\'s infrastructure to the cloud', '2023-01-01', '2023-06-30'),
+(2, 'Cloud Migration', 'Migrate the company infrastructure to the cloud', '2023-01-01', '2023-06-30'),
 (3, 'Budget Analysis', 'Perform a detailed analysis of company expenses', '2023-02-15', NULL),
 (5, 'Marketing Campaign', 'Launch a new social media campaign', '2023-03-01', '2023-05-15');
 
