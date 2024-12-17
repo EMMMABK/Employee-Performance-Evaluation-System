@@ -355,3 +355,8 @@ Installation requirements:
 3. https://johann.loefflmann.net/en/software/jarfix/index.html - Jarfix
 
 You need to provide the path to the JavaFX file
+
+## YouTube Video
+
+Link to Video
+https://youtu.be/ZoCezYx8hj0
